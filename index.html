@@ -368,7 +368,7 @@ const STAGES=[
 ];
 
 // 各廃村の地形・植生・水面の設定（tr=[木の本数,高さ倍率,幅倍率]）
-const SC=[{tr:[540,2.2,.55]},{tr:[380,1.5,.8]},{tr:[340,1.1,1]},{tr:[560,1.8,.75]},{tr:[170,1.6,.55],nH:4},
+const SC=[{tr:[540,2.2,.55]},{tr:[380,1.5,.8]},{tr:[200,1.15,.82],nH:14},{tr:[560,1.8,.75]},{tr:[170,1.6,.55],nH:4},
   {tr:[400,1.2,.9],tilt:.085,water:-13},{tr:[300,1.2,.9],bowl:17,water:-9},{tr:[0,1,1],nH:5},{tr:[500,1.7,.7]},{tr:[440,1.4,.8]}];
 let SCN=SC[0];
 const SCENE=['杉の植林に沈んだ集落跡。苔むした石垣と小さな社が残る。','巨樹「針葉沢のヒノキ」のそば。斜面に石垣と基礎、白い石灰の崖。','石灰の採掘場の奥。白い段々の岩肌と索道の支柱。','沢を何度も渡った先の深い森。三角の小屋、土蔵、お地蔵様。','街道の両側に、石を載せた板葺き屋根の宿場の家並み。雪。','長い隧道を抜けた先。ダム湖へ落ちこむ急斜面（湖は水に足を取られる）。','ダム湖に沈んだ村。水面から屋根と電柱と鳥居。湖を突っ切ると遅い。','霧の高原に並ぶ鉄筋アパート群と煙突。硫黄で木が生えない。','朽ちた鳥居、髑髏に見える石、立入を拒む看板。夜。','ブロックで塞がれた旧トンネルと、噂の看板。夜。'];
@@ -520,12 +520,39 @@ const shade=(()=>{const g=new T.Group(),m=new T.MeshBasicMaterial({color:0x05050
   [-1,1].forEach(q=>{const a=mk(new T.CylinderGeometry(.12,.1,5.5,6),m,q*.8,4.2,0);a.rotation.z=q*.12;g.add(a);g.add(mk(new T.SphereGeometry(.09,6,4),w,q*.22,7.6,.52))});
   g.visible=false;scene.add(g);return g})();
 [runner,truck].forEach(o=>o.traverse(q=>{if(q.isMesh)q.castShadow=true}));
-const stalker=(()=>{const g=new T.Group(),wh=new T.MeshLambertMaterial({color:0xe8ecf2,emissive:0x3a3f4a}),hr=new T.MeshBasicMaterial({color:0x060606});
-  g.add(mk(new T.ConeGeometry(.95,3.4,10),wh,0,1.7,0));g.add(mk(new T.SphereGeometry(.42,12,10),wh,0,3.5,0));
-  const h1=mk(new T.SphereGeometry(.5,12,10),hr,0,3.45,-.05);h1.scale.set(1,1.25,1);g.add(h1);g.add(mk(new T.BoxGeometry(.75,1.9,.12),hr,0,2.75,.42));
-  [-1,1].forEach(q=>{const a=mk(new T.CylinderGeometry(.09,.07,1.9,6),wh,q*.5,2.7,.95);a.rotation.x=Math.PI/2-.25;g.add(a)});
-  g.add(mk(new T.SphereGeometry(.07,6,4),RED,.14,3.5,.5));
-  g.scale.setScalar(1.6);g.visible=false;scene.add(g);return g})();
+const stalker=(()=>{ // うしろの霊。袖から肌の前腕と、掌・親指・関節のある指が伸びる
+  const g=new T.Group(),robe=L(0xe4e0d8,{emissive:0x16181c}),skin=L(0xcfc6ba),nail=L(0xb3a496),hair=L(0x070707);
+  g.add(mk(new T.LatheGeometry([[.12,0],[.78,.4],[1.02,1.15],[.7,2.2],[.4,2.9],[.26,3.2]].map(p=>new T.Vector2(p[0],p[1])),16),robe));
+  const hd=new T.Group();hd.position.set(0,3.48,.04);
+  const head=mk(new T.SphereGeometry(.4,20,16),L(0xffffff,{map:faceTex({skin:'#d9dde0',eyes:'hollow',mouth:'line'})}));head.scale.set(.9,1.06,.95);hd.add(head);
+  const nose=mk(new T.ConeGeometry(.045,.13,6),skin,0,-.02,.4);nose.rotation.x=Math.PI/2;hd.add(nose);
+  const cap=mk(new T.SphereGeometry(.42,14,10),hair,0,.1,-.08);cap.scale.set(.96,.62,1);hd.add(cap);
+  hd.add(mk(new T.BoxGeometry(.85,1.55,.08),hair,0,-.72,-.3));
+  [-1,1].forEach(q=>hd.add(mk(new T.BoxGeometry(.16,1.35,.08),hair,q*.34,-.55,.02)));
+  g.add(hd);
+  const hand=(side)=>{const h=new T.Group(),len=[.9,1.05,1,.82];
+    const palm=mk(new T.SphereGeometry(.15,14,12),skin,0,-.13,.02);palm.scale.set(1.2,.95,.48);h.add(palm);
+    h.add(mk(new T.SphereGeometry(.07,8,6),skin,0,.02,0));
+    const th=new T.Group();th.position.set(side*-.17,-.05,.04);th.rotation.z=side*-.4;th.rotation.x=-.3;
+    th.add(mk(new T.SphereGeometry(.042,8,6),skin,0,-.02,0));
+    th.add(mk(new T.CylinderGeometry(.028,.036,.13,8),skin,0,-.1,0));
+    const tp=new T.Group();tp.position.set(0,-.14,0);tp.rotation.x=.75;
+    tp.add(mk(new T.CylinderGeometry(.022,.028,.11,8),skin,0,-.05,0));
+    tp.add(mk(new T.SphereGeometry(.026,6,5),nail,0,-.11,.01));th.add(tp);h.add(th);
+    for(let i=0;i<4;i++){const f=new T.Group(),k=len[i];f.position.set(-.095+i*.064,-.25,.02);f.rotation.x=1.05;f.rotation.z=(i-1.5)*-.14;
+      f.add(mk(new T.SphereGeometry(.032,8,6),skin,0,0,0));
+      f.add(mk(new T.CylinderGeometry(.018*k,.026,.12*k,8),skin,0,-.07*k,0));
+      const mid=new T.Group();mid.position.set(0,-.13*k,0);mid.rotation.x=.9;
+      mid.add(mk(new T.CylinderGeometry(.014,.02,.1*k,7),skin,0,-.045*k,0));
+      mid.add(mk(new T.SphereGeometry(.018,6,5),nail,0,-.1*k,.01));f.add(mid);h.add(f)}
+    return h};
+  const arms=[];
+  [-1,1].forEach(q=>{const arm=new T.Group();arm.position.set(q*.62,2.82,.08);arm.rotation.set(-1.05,0,q*.28);
+    arm.add(mk(new T.CylinderGeometry(.16,.12,.72,8),robe,0,-.34,0));
+    const elbow=new T.Group();elbow.position.set(0,-.68,0);elbow.rotation.x=-.18;arm.userData.elbow=elbow;
+    elbow.add(mk(new T.CylinderGeometry(.07,.058,.74,8),skin,0,-.36,0));
+    const h=hand(q);h.position.set(0,-.8,0);elbow.add(h);arm.add(elbow);g.add(arm);arms.push(arm)});
+  g.userData.arms=arms;g.scale.setScalar(1.45);g.visible=false;scene.add(g);return g})();
 let stk={on:false,t:1e9,x:0,z:0,cd:0,d:99};
 function mkPkg(){const g=new T.Group();g.add(mk(new T.BoxGeometry(.95,.95,1.15),L(0x2f6b4a)));g.add(mk(new T.BoxGeometry(1,.2,1.2),L(0xefe6cf)));g.add(mk(new T.SphereGeometry(.22,8,6),L(0xefe6cf),0,.55,0));return g}
 const HOLD={normal:[2.3,.85,1],flee:[2.3,.85,1],wander:[3.6,4.7,1.8],gentle:[1.6,-.6,1],high:[4.4,.85,1],fetch:[1.95,.8,1],ghost:[2.3,.85,1]};
@@ -678,7 +705,7 @@ function scenery(rnd,pts,free){
     for(let r=0;r<3;r++)for(let i=0;i<5;i++){const [x,z]=P(Lg-72+r*17,-74+i*13);if(!ok(x,z)||!free(x,z,7))continue;at(mk(new T.BoxGeometry(11,.5,9),conc),x,z,.2,ang);at(mk(new T.BoxGeometry(11,1.6,1.4),stone),x-ux*5.5,z-uz*5.5,.5,ang+Math.PI/2);ob(x-ux*5.5,z-uz*5.5,1.6,H(x,z)+1.5)}
     for(let i=0;i<5;i++){const [x,z]=P(70+i*95,-165-rnd()*25);if(!ok(x,z))continue;at(mk(new T.BoxGeometry(26,30+rnd()*16,18),L(0xcfcdc2,{map:TX.conc})),x,z,10,rnd()*3);ob(x,z,13)}}
   else if(si===2){ // 白段：石灰の採掘場（白いベンチカット）と索道の支柱
-    const [qx,qz]=P(Lg*.5,-190);if(ok(qx,qz)){[[76,54],[58,40],[40,27],[24,15]].forEach((d,i)=>at(mk(new T.BoxGeometry(d[0],9,d[1]),L(i%2?0xe2dfd4:0xd0cdc2,{map:TX.conc})),qx,qz,4+i*9,ang+.3));ob(qx,qz,40)}
+    const [qx,qz]=P(Lg*.5,-190);if(ok(qx,qz)){[[76,54],[58,40],[40,27],[24,15]].forEach((d,i)=>{const m=mk(new T.BoxGeometry(d[0],9,d[1]),L(i%2?0xe2dfd4:0xd0cdc2,{map:TX.conc}));m.userData.noCast=1;at(m,qx,qz,4+i*9,ang+.3)});ob(qx,qz,40)}
     for(let i=0;i<7;i++){const [x,z]=P(Lg*.5-30+i*5,-140+i*44);if(!ok(x,z)||!free(x,z,7))continue;const t=new T.Group(),st=L(0x5a4a40);[-1.2,1.2].forEach(q=>{const l=mk(new T.BoxGeometry(.4,17,.4),st,q,8.5,0);l.rotation.z=q*.06;t.add(l)});t.add(mk(new T.BoxGeometry(5,.5,.6),st,0,16.5,0));t.add(mk(new T.BoxGeometry(1.6,1.4,2.2),L(0x6a3a2a),1.6,15.4,0));at(t,x,z,0,ang);ob(x,z,1.4)}}
   else if(si===3){ // 霧沢八里：何度も渡る沢、台杉とブナの深い森、三角の小屋、土蔵、お地蔵様
     const wm2=new T.MeshLambertMaterial({color:0x4a8fb0,transparent:true,opacity:.85});
@@ -845,7 +872,7 @@ function loadStage(i){
   cur=0;time=0;legFrom=[pts[0][0],pts[0][1]];legLen=Math.hypot(pts[1][0]-pts[0][0],pts[1][1]-pts[0][1]);
   Object.assign(pl,{x:pts[0][0],z:pts[0][1],vx:0,vy:0,vz:0,gauge:1,rev:0,lock:0,curse:0,jcd:0,hit:0,hand:0,stun:0,shake:0,up:1,upT:1,heading:Math.atan2(pts[1][0]-pts[0][0],pts[1][1]-pts[0][1])});
   pl.y=H(pl.x,pl.z)+R;pkg.visible=true;roll.rotation.x=0;runner.visible=truck.visible=true;failC=null;fly=null;winRed=0;stalker.visible=false;stk={on:false,t:si===0?1e9:(Math.random()<(si>=5?1:.7)?6+Math.random()*9:1e9),x:0,z:0,cd:0,d:99};shade.visible=false;shT=9;clearTimeout(resT);$('doom').hidden=true;
-  world.traverse(o=>{if(!o.isMesh||o.userData.noSh)return;const m=Array.isArray(o.material)?o.material[0]:o.material;if(m.transparent||m.isMeshBasicMaterial||m.isSpriteMaterial)return;o.receiveShadow=true;o.castShadow=!o.userData.ground});
+  world.traverse(o=>{if(!o.isMesh||o.userData.noSh)return;const m=Array.isArray(o.material)?o.material[0]:o.material;if(m.transparent||m.isMeshBasicMaterial||m.isSpriteMaterial)return;o.receiveShadow=true;o.castShadow=!o.userData.ground&&!o.userData.noCast});
   camH=pl.heading;placeTruck();syncMeshes(0);
 }
 
@@ -1055,7 +1082,8 @@ function syncMeshes(dt){
   for(const c of custs)if(c.lb)c.lb.visible=state!=='brief'&&!failC;
   for(const q of sway)q.rotation.x=Math.sin(anim*1.3+q.position.x)*.25;
   for(const m of mist){m.sp.position.set(m.x+Math.sin(anim*.05+m.ph)*30,H(m.x,m.z)+5+Math.sin(anim*.2+m.ph)*1.5,m.z+Math.cos(anim*.04+m.ph)*30)}
-  if(stalker.visible){stalker.position.set(stk.x,H(stk.x,stk.z)+.5+Math.sin(anim*3)*.25,stk.z);stalker.rotation.y=Math.atan2(P.x-stk.x,P.z-stk.z);stalker.rotation.z=Math.sin(anim*11)*.05}
+  if(stalker.visible){stalker.position.set(stk.x,H(stk.x,stk.z)+.35+Math.sin(anim*2.4)*.18,stk.z);stalker.rotation.y=Math.atan2(P.x-stk.x,P.z-stk.z);stalker.rotation.z=Math.sin(anim*6)*.025;
+    const reach=Math.max(0,Math.min(1,(22-stk.d)/14));stalker.userData.arms.forEach((a,i)=>{const q=i?1:-1;a.rotation.x=-(1.02+reach*.18)+Math.sin(anim*4.2+i)*.04;a.rotation.z=q*(.26+reach*.04);a.userData.elbow.rotation.x=-(.16+reach*.16)+Math.sin(anim*5.5+i)*.04})}
   if(fly){fly.t+=dt/.45;const c=fly.c;let par=c.g,hy,hz,sc=1;
     if(c.t==='jizo'){par=c.st.find(q=>q.real).m;hy=.5;hz=1.05;sc=1/1.7}else{const h=HOLD[c.t],b=c.boss?1.55:1;hy=h[0]*b;hz=h[1]*b;sc=h[2]*b}
     if(fly.t>=1){par.add(fly.g);fly.g.position.set(0,hy,hz);fly.g.scale.setScalar(sc);fly.g.rotation.set(0,0,0);fly=null;if(cur<custs.length)pkg.visible=true}
