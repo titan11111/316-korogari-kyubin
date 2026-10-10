@@ -316,35 +316,35 @@ function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a
 /* ---------- 10の廃村 ---------- */
 const EXTRA={normal:0,jizo:2.5,wander:1.5,gentle:2.5,high:2.5,flee:4.5,fetch:6,ghost:3};
 const STAGES=[
- {name:'峰集落',pref:'東京都 奥多摩町',A:4,k:14,sky:0xe8b587,fog:0xdca982,far:520,g1:0x5d7a3a,g2:0x7f8f47,road:0xa58a5e,leaf:[0x3f6b34,0x567f3a],sun:0xfff0c0,amb:1,
+ {name:'苔峰',pref:'嶺北県 奥霧',A:4,k:14,sky:0xe8b587,fog:0xdca982,far:520,g1:0x5d7a3a,g2:0x7f8f47,road:0xa58a5e,leaf:[0x3f6b34,0x567f3a],sun:0xfff0c0,amb:1,
   pts:[[-40,-250],[60,200]],
   cust:[{t:'normal',n:'なぜか住んでる人 トメさん',q:'くせなし。ふつうに体当たりで届ければ受け取る。まずは肩ならし。',ok:'あら早い。お茶でも飲んでいきな',ng:'さっき車の人から受け取ったよ。帰っとくれ'}]},
- {name:'倉沢集落',pref:'東京都 奥多摩町',A:6,k:14.5,sky:0xb7c4b0,fog:0xa9b8a6,far:380,g1:0x4c6a3c,g2:0x6c7f52,road:0x8f8468,leaf:[0x2f5a36,0x47704a],sun:0xf3f3df,amb:.95,
+ {name:'針葉沢',pref:'嶺北県 奥霧',A:6,k:14.5,sky:0xb7c4b0,fog:0xa9b8a6,far:380,g1:0x4c6a3c,g2:0x6c7f52,road:0x8f8468,leaf:[0x2f5a36,0x47704a],sun:0xf3f3df,amb:.95,
   pts:[[-230,-220],[200,180]],
   cust:[{t:'jizo',decoys:3,n:'呪いの地蔵',q:'一列に並んだ地蔵は、全員こちらを向く。本物は<b>赤い前掛け</b>の一体だけ。青に触れると呪われて4秒のろくなる。',ok:'……よきにはからえ（呪いは勘弁してやろう）',ng:'……先客あり。おぬしには末代まで渋滞の呪いを'}]},
- {name:'白岩集落',pref:'埼玉県 飯能市',A:7,k:13.5,sky:0xf0c9a0,fog:0xe2b990,far:480,g1:0x7a6a35,g2:0x8f7d3f,road:0xa99570,leaf:[0xb8452a,0xd98a2b],sun:0xffe2a8,amb:1,
+ {name:'白段',pref:'武野県 石灰郷',A:7,k:13.5,sky:0xf0c9a0,fog:0xe2b990,far:480,g1:0x7a6a35,g2:0x8f7d3f,road:0xa99570,leaf:[0xb8452a,0xd98a2b],sun:0xffe2a8,amb:1,
   pts:[[240,-240],[-200,150]],
   cust:[{t:'wander',n:'巨大たぬき',q:'じっとしていない。集落をぐるぐる歩き回るので、動きを読んでぶつかれ。',ok:'ぽんぽこ！ 葉っぱのお札で払うね',ng:'ぽん…もうお腹いっぱい受け取ったぽん'}]},
- {name:'廃村八丁',pref:'京都府 京都市右京区',A:8,k:15,sky:0x9fc2b6,fog:0x8fb0a3,far:400,g1:0x35583a,g2:0x4d7048,road:0x857a5c,leaf:[0x244a2c,0x356338],sun:0xeef6e6,amb:.9,
+ {name:'霧沢八里',pref:'奥京県 深森',A:8,k:15,sky:0x9fc2b6,fog:0x8fb0a3,far:400,g1:0x35583a,g2:0x4d7048,road:0x857a5c,leaf:[0x244a2c,0x356338],sun:0xeef6e6,amb:.9,
   pts:[[0,-270],[-60,230]],
   cust:[{t:'gentle',in:1,n:'昼寝中の木こり 源じい',q:'家の中で爆睡中。<b>ゆっくり</b>（時速25km以下）で近づかないと「うるさい！」と弾き飛ばされる。手前でブレーキ。',ok:'ん…ふあぁ。静かでええ配達や',ng:'二度も起こすな！ もう車の兄ちゃんにもろたわ'}]},
- {name:'大平宿',pref:'長野県 飯田市',A:6,k:15.5,sky:0xcfd9e4,fog:0xc6d0db,far:440,g1:0xe6ebee,g2:0xcfd8dc,road:0xb5b0a4,leaf:[0xdfe8ea,0x6f8f7a],sun:0xffffff,amb:1.1,snow:1,
+ {name:'石葺宿',pref:'中山県 雪白',A:6,k:15.5,sky:0xcfd9e4,fog:0xc6d0db,far:440,g1:0xe6ebee,g2:0xcfd8dc,road:0xb5b0a4,leaf:[0xdfe8ea,0x6f8f7a],sun:0xffffff,amb:1.1,snow:1,
   pts:[[-260,60],[250,-80]],
   cust:[{t:'high',n:'岩の上の宿場じいさん',q:'岩から降りてこない。そばで<b>ジャンプ</b>して空中で手渡しすること。',ok:'ほっほ、飛脚はそうでなくちゃ',ng:'下の車から竿で渡してもろうたわ。ご苦労さん'}]},
- {name:'夏焼集落',pref:'静岡県 浜松市天竜区',A:10,k:16,sky:0x8ec9ee,fog:0xa5d3ee,far:540,g1:0x4f8a35,g2:0x79a83f,road:0xb39a6a,leaf:[0x2f7a2f,0x4f9a3a],sun:0xfffbe0,amb:1.1,
+ {name:'火見',pref:'陽炎県 火坂',A:10,k:16,sky:0x8ec9ee,fog:0xa5d3ee,far:540,g1:0x4f8a35,g2:0x79a83f,road:0xb39a6a,leaf:[0x2f7a2f,0x4f9a3a],sun:0xfffbe0,amb:1.1,
   pts:[[220,240],[-210,-200]],
   cust:[{t:'flee',n:'人見知りの山姥',q:'近づくと全力で<b>逃げる</b>。集落の外には出ないので、ダッシュで追い詰めろ。',ok:'ひっ…あ、ありがと…（包丁はしまう）',ng:'ひぃっ、また来た！ もう受け取ったってば！'}]},
- {name:'徳山村',pref:'岐阜県 揖斐川町',A:8,k:11.5,sky:0x7f8fc8,fog:0x8a97c4,far:460,g1:0x3f6447,g2:0x587a52,road:0x8e8a70,leaf:[0x2c5a45,0x3f7355],sun:0xffd9b0,amb:.9,pond:1,
+ {name:'湖底村',pref:'深水県 堰ノ村',A:8,k:11.5,sky:0x7f8fc8,fog:0x8a97c4,far:460,g1:0x3f6447,g2:0x587a52,road:0x8e8a70,leaf:[0x2c5a45,0x3f7355],sun:0xffd9b0,amb:.9,pond:1,
   pts:[[-250,-250],[230,210]],
   cust:[{t:'fetch',n:'ダム湖の河童',q:'手ぶらでは受け取らない。近くに落ちている<b>きゅうり</b>（緑の光）を先に拾ってから届ける。',ok:'カパッ！ きゅうり付きとは気がきくのう',ng:'皿が乾くほど待ったわ。車のやつに頼んだぞ'}]},
- {name:'松尾鉱山',pref:'岩手県 八幡平市',A:9,k:12,sky:0x9a9f9f,fog:0x9a9f9f,far:190,g1:0x7d7a4a,g2:0x8f8a56,road:0x7f7a6c,leaf:[0x4a5545,0x5d6a55],sun:0xdadada,amb:.85,apt:1,
+ {name:'煙平鉱山',pref:'煙嶺県 硫黄平',A:9,k:12,sky:0x9a9f9f,fog:0x9a9f9f,far:190,g1:0x7d7a4a,g2:0x8f8a56,road:0x7f7a6c,leaf:[0x4a5545,0x5d6a55],sun:0xdadada,amb:.85,apt:1,
   pts:[[260,-100],[-240,120]],
   cust:[{t:'ghost',in:1,n:'鉱山アパートの幽霊',q:'数秒おきに<b>消える</b>。姿が見えている間だけ受け取れる。濃霧なので矢印を信じろ。',ok:'……はんこ、押せないけど……いい？',ng:'……もう……届いてる……あなた、だれ……'}]},
- {name:'杉沢村',pref:'青森県・都市伝説の村',A:9,k:15,sky:0x1b1830,fog:0x1b1830,far:330,g1:0x243524,g2:0x314531,road:0x5c5648,leaf:[0x15281c,0x1f3a26],sun:0xd8452c,amb:.72,night:1,
+ {name:'骨沢村',pref:'地図に無い村',A:9,k:15,sky:0x1b1830,fog:0x1b1830,far:330,g1:0x243524,g2:0x314531,road:0x5c5648,leaf:[0x15281c,0x1f3a26],sun:0xd8452c,amb:.72,night:1,
   pts:[[-250,-230],[40,60],[240,-220]],
   cust:[{t:'jizo',decoys:5,n:'呪いの地蔵（六体）',q:'一列に並ぶ六体のうち本物は<b>赤い前掛け</b>の一体。夜なのでよく見ろ。',ok:'……通ってよし',ng:'……遅い。呪う'},
         {t:'normal',in:1,n:'管理人を名乗る男',q:'誰もいないはずの村の「管理人」。受け取りはふつう。<b>2件連続配達</b>。',ok:'ご苦労さま。ところで君、どこから入った？',ng:'もう受け取りましたよ。ここは立入禁止です'}]},
- {name:'犬鳴村',pref:'福岡県・都市伝説の村',A:10,k:13,sky:0x24163a,fog:0x24163a,far:350,g1:0x2a2f3f,g2:0x3a3f52,road:0x615a66,leaf:[0x1c2238,0x2b3350],sun:0xe8e2ff,amb:.75,night:1,
+ {name:'吠森村',pref:'地図に無い村',A:10,k:13,sky:0x24163a,fog:0x24163a,far:350,g1:0x2a2f3f,g2:0x3a3f52,road:0x615a66,leaf:[0x1c2238,0x2b3350],sun:0xe8e2ff,amb:.75,night:1,
   pts:[[0,-280],[-220,-20],[200,60],[0,270]],
   cust:[{t:'ghost',n:'トンネル前の幽霊',q:'ブロックで塞がれたトンネルの前に立つ。消えたり出たりする。見えている間だけ。',ok:'……この先、電波……通じません……',ng:'……おそい……'},
         {t:'flee',n:'山姥の姉',q:'妹よりさらに人見知り。逃げる。',ok:'きゃっ…あ、通販の…どうも…',ng:'もう来ないで！ 受け取ったから！'},
@@ -355,7 +355,7 @@ const STAGES=[
 const SC=[{tr:[540,2.2,.55]},{tr:[380,1.5,.8]},{tr:[340,1.1,1]},{tr:[560,1.8,.75]},{tr:[170,1.6,.55],nH:4},
   {tr:[400,1.2,.9],tilt:.085,water:-13},{tr:[300,1.2,.9],bowl:17,water:-9},{tr:[0,1,1],nH:5},{tr:[500,1.7,.7]},{tr:[440,1.4,.8]}];
 let SCN=SC[0];
-const SCENE=['杉の植林に沈んだ集落跡。苔むした石垣と小さな社が残る。','巨樹「倉沢のヒノキ」のそば。斜面に石垣と基礎、白い石灰の崖。','石灰の採掘場の奥。白い段々の岩肌と索道の支柱。','沢を何度も渡った先の深い森。三角の小屋、土蔵、お地蔵様。','街道の両側に、石を載せた板葺き屋根の宿場の家並み。雪。','長い隧道を抜けた先。ダム湖へ落ちこむ急斜面（湖は水に足を取られる）。','ダム湖に沈んだ村。水面から屋根と電柱と鳥居。湖を突っ切ると遅い。','霧の高原に並ぶ鉄筋アパート群と煙突。硫黄で木が生えない。','朽ちた鳥居、髑髏に見える石、立入を拒む看板。夜。','ブロックで塞がれた旧トンネルと、噂の看板。夜。'];
+const SCENE=['杉の植林に沈んだ集落跡。苔むした石垣と小さな社が残る。','巨樹「針葉沢のヒノキ」のそば。斜面に石垣と基礎、白い石灰の崖。','石灰の採掘場の奥。白い段々の岩肌と索道の支柱。','沢を何度も渡った先の深い森。三角の小屋、土蔵、お地蔵様。','街道の両側に、石を載せた板葺き屋根の宿場の家並み。雪。','長い隧道を抜けた先。ダム湖へ落ちこむ急斜面（湖は水に足を取られる）。','ダム湖に沈んだ村。水面から屋根と電柱と鳥居。湖を突っ切ると遅い。','霧の高原に並ぶ鉄筋アパート群と煙突。硫黄で木が生えない。','朽ちた鳥居、髑髏に見える石、立入を拒む看板。夜。','ブロックで塞がれた旧トンネルと、噂の看板。夜。'];
 const ITEM={'なぜか住んでる人 トメさん':'入れ歯洗浄剤（三年分）','呪いの地蔵':'赤い前掛け（替え）','巨大たぬき':'どんぐり 十キロ','昼寝中の木こり 源じい':'耳栓（業務用）','岩の上の宿場じいさん':'はしご（本人に使う気なし）','人見知りの山姥':'砥石','ダム湖の河童':'皿用保湿クリーム','鉱山アパートの幽霊':'線香 徳用箱','呪いの地蔵（六体）':'笠 五つ（ひとつ足りない）','管理人を名乗る男':'南京錠','トンネル前の幽霊':'懐中電灯（電池なし）','山姥の姉':'妹あての手紙','巨大たぬき親分':'八畳敷きの座布団'};
 /* ---------- renderer ---------- */
 const cv=$('c');
@@ -630,53 +630,53 @@ function scenery(rnd,pts,free){
   const a=pts[0],b=pts[1],dx=b[0]-a[0],dz=b[1]-a[1],Lg=Math.hypot(dx,dz),ux=dx/Lg,uz=dz/Lg,nx=-uz,nz=ux,ang=Math.atan2(ux,uz),back=ang+Math.PI;
   const P=(t,o)=>[a[0]+ux*t+nx*o,a[1]+uz*t+nz*o],ok=(x,z)=>Math.abs(x)<HALF-45&&Math.abs(z)<HALF-45;
   const stone=L(0x9ea097,{map:TX.stone}),conc=L(0xa6a8a2,{map:TX.conc}),dark=L(0x4a3a2c,{map:TX.wood}),ob=(x,z,r,top)=>obs.push({x,z,r,top:top==null?1e9:top});
-  if(si===0){ // 峰集落：杉の植林に沈んだ集落跡。苔むした石垣と小さな社
+  if(si===0){ // 苔峰：杉の植林に沈んだ集落跡。苔むした石垣と小さな社
     for(let i=0;i<14;i++){const [x,z]=P(60+rnd()*(Lg-120),(rnd()-.5)*230);if(!ok(x,z)||!free(x,z,8))continue;const ry=ang+Math.PI/2+(rnd()-.5)*.5;at(mk(new T.BoxGeometry(16,1.8,1.8),stone),x,z,.7,ry);
       for(let q=-6;q<=6;q+=3)ob(x+Math.cos(ry)*q,z-Math.sin(ry)*q,1.5,H(x,z)+1.7)}
     const [sx,sz]=P(Lg-6,-25),sh=new T.Group();sh.add(mk(new T.BoxGeometry(4.2,.6,4.2),stone,0,.3,0));sh.add(mk(new T.BoxGeometry(3.4,2.6,3.4),L(0x5a4332),0,1.9,0));const rf=mk(new T.ConeGeometry(3.6,1.8,4),dark,0,4.1,0);rf.rotation.y=Math.PI/4;sh.add(rf);at(sh,sx,sz,0,back);ob(sx,sz,2.6)}
-  else if(si===1){ // 倉沢集落：巨樹「倉沢のヒノキ」と、斜面に残る石垣・基礎、石灰の崖
+  else if(si===1){ // 針葉沢：巨樹「針葉沢のヒノキ」と、斜面に残る石垣・基礎、石灰の崖
     const [tx,tz]=P(Lg*.55,48),g=new T.Group();g.add(mk(new T.CylinderGeometry(3,4.4,36,12),L(0x8a7660,{map:TX.bark}),0,18,0));
     [[0,40,0,12],[7,34,4,9],[-8,35,-3,9],[3,46,-5,8],[-4,30,7,8]].forEach(c=>g.add(mk(new T.SphereGeometry(c[3],10,8),L(0x2c5a3a,{map:TX.leaf}),c[0],c[1],c[2])));
     const nawa=mk(new T.TorusGeometry(3.9,.24,6,16),L(0xe9e4d6),0,5,0);nawa.rotation.x=Math.PI/2;g.add(nawa);at(g,tx,tz);ob(tx,tz,4.7);
     for(let r=0;r<3;r++)for(let i=0;i<5;i++){const [x,z]=P(Lg-72+r*17,-74+i*13);if(!ok(x,z)||!free(x,z,7))continue;at(mk(new T.BoxGeometry(11,.5,9),conc),x,z,.2,ang);at(mk(new T.BoxGeometry(11,1.6,1.4),stone),x-ux*5.5,z-uz*5.5,.5,ang+Math.PI/2);ob(x-ux*5.5,z-uz*5.5,1.6,H(x,z)+1.5)}
     for(let i=0;i<5;i++){const [x,z]=P(70+i*95,-165-rnd()*25);if(!ok(x,z))continue;at(mk(new T.BoxGeometry(26,30+rnd()*16,18),L(0xcfcdc2,{map:TX.conc})),x,z,10,rnd()*3);ob(x,z,13)}}
-  else if(si===2){ // 白岩集落：石灰の採掘場（白いベンチカット）と索道の支柱
+  else if(si===2){ // 白段：石灰の採掘場（白いベンチカット）と索道の支柱
     const [qx,qz]=P(Lg*.5,-190);if(ok(qx,qz)){[[76,54],[58,40],[40,27],[24,15]].forEach((d,i)=>at(mk(new T.BoxGeometry(d[0],9,d[1]),L(i%2?0xe2dfd4:0xd0cdc2,{map:TX.conc})),qx,qz,4+i*9,ang+.3));ob(qx,qz,40)}
     for(let i=0;i<7;i++){const [x,z]=P(Lg*.5-30+i*5,-140+i*44);if(!ok(x,z)||!free(x,z,7))continue;const t=new T.Group(),st=L(0x5a4a40);[-1.2,1.2].forEach(q=>{const l=mk(new T.BoxGeometry(.4,17,.4),st,q,8.5,0);l.rotation.z=q*.06;t.add(l)});t.add(mk(new T.BoxGeometry(5,.5,.6),st,0,16.5,0));t.add(mk(new T.BoxGeometry(1.6,1.4,2.2),L(0x6a3a2a),1.6,15.4,0));at(t,x,z,0,ang);ob(x,z,1.4)}}
-  else if(si===3){ // 廃村八丁：何度も渡る沢、台杉とブナの深い森、三角の小屋、土蔵、お地蔵様
+  else if(si===3){ // 霧沢八里：何度も渡る沢、台杉とブナの深い森、三角の小屋、土蔵、お地蔵様
     const wm2=new T.MeshLambertMaterial({color:0x4a8fb0,transparent:true,opacity:.85});
     for(let i=0;i<72;i++){const t=i/71,o=-270+t*540,[x,z]=P(Lg*.5+Math.sin(t*9)*38,o);if(!ok(x,z))continue;const [x2,z2]=P(Lg*.5+Math.sin((t+.014)*9)*38,o+7.6);at(mk(new T.BoxGeometry(8,.12,9.6),wm2),x,z,.14,Math.atan2(x2-x,z2-z))}
     const [hx,hz]=P(Lg-4,27),af=new T.Group(),wd=L(0x4a3626);[-1,1].forEach(q=>{const sd=mk(new T.BoxGeometry(.3,9.5,9),wd,q*2.6,3.9,0);sd.rotation.z=q*.6;af.add(sd)});af.add(mk(new T.BoxGeometry(4.6,3.2,.3),L(0x2a1f16),0,1.6,-4.4));at(af,hx,hz,0,back);ob(hx,hz,4.4);
     const [kx,kz]=P(Lg-30,-24),ku=new T.Group();ku.add(mk(new T.BoxGeometry(5,5,6),L(0xcfcabd),0,2.5,0));const kr=mk(new T.ConeGeometry(5,2.2,4),dark,0,6.1,0);kr.rotation.y=Math.PI/4;ku.add(kr);at(ku,kx,kz,0,ang+.3);ob(kx,kz,4);
     const [jx,jz]=P(Lg-54,10),j1=jizo(0xd8362b);j1.scale.setScalar(1.1);at(j1,jx,jz,0,back);ob(jx,jz,1)}
-  else if(si===4){ // 大平宿：街道の両側に並ぶ、石置き板葺き屋根の宿場の家並み
+  else if(si===4){ // 石葺宿：街道の両側に並ぶ、石置き板葺き屋根の宿場の家並み
     for(let i=0;i<7;i++)for(const q of[-1,1]){const [x,z]=P(Lg-24-i*16,q*14);if(!free(x,z,8))continue;const h=new T.Group();h.add(mk(new T.BoxGeometry(9,3.2,7),L(0x4d3b2b),0,1.6,0));h.add(mk(new T.BoxGeometry(2,2.2,.15),L(0x15100b),-1.5,1.1,3.55));h.add(mk(new T.BoxGeometry(3.4,1.5,.15),L(0x2a2016),2.2,1.6,3.55));
       [-1,1].forEach(r=>{const sl=mk(new T.BoxGeometry(10.4,.3,4.6),L(0xe9eef0),0,3.95,r*2.05);sl.rotation.x=r*.3;h.add(sl)});
       for(let k=0;k<6;k++)h.add(mk(new T.DodecahedronGeometry(.35,0),stone,-4+k*1.6,4.3,(k%2?-1:1)*1.8));
       at(h,x,z,-.2,q>0?ang+Math.PI/2:ang-Math.PI/2);ob(x,z,5)}}
-  else if(si===5){ // 夏焼集落：長い隧道を抜けた先、ダム湖に落ちこむ急斜面
+  else if(si===5){ // 火見：長い隧道を抜けた先、ダム湖に落ちこむ急斜面
     const [x,z]=P(-20,0);at(tunnel(0,0x2f4a2a),x,z,-.5,ang);ob(x,z,9.5)}
-  else if(si===6){ // 徳山村：ダム湖に沈んだ村。水面から屋根と電柱と鳥居、遠くに堤体
+  else if(si===6){ // 湖底村：ダム湖に沈んだ村。水面から屋根と電柱と鳥居、遠くに堤体
     let n=0;for(let t=0;n<24&&t<800;t++){const x=(rnd()-.5)*320,z=(rnd()-.5)*320;if(H(x,z)>SCN.water-3)continue;n++;
       if(n%2){const r=mk(new T.ConeGeometry(5.4,3,4),L(0x5a4332));r.rotation.set(0,Math.PI/4+rnd(),(rnd()-.5)*.25);r.position.set(x,SCN.water+.5,z);world.add(r);ob(x,z,3.6,SCN.water+2.2)}
       else{const p=new T.Group();p.add(mk(new T.CylinderGeometry(.18,.22,9,6),dark,0,2,0));p.add(mk(new T.BoxGeometry(2.6,.18,.18),dark,0,5.4,0));p.position.set(x,SCN.water,z);p.rotation.z=(rnd()-.5)*.3;world.add(p);ob(x,z,.5)}}
     const tg=new T.Group(),rm=L(0x8c2a22);tg.add(mk(new T.CylinderGeometry(.35,.4,7,8),rm,-3.4,3.5,0));tg.add(mk(new T.CylinderGeometry(.35,.4,7,8),rm,3.4,3.5,0));tg.add(mk(new T.BoxGeometry(9.4,.6,.7),rm,0,7.1,0));tg.add(mk(new T.BoxGeometry(7.8,.4,.5),rm,0,5.6,0));tg.position.set(30,SCN.water-3.4,-40);tg.rotation.set(0,ang,.09);world.add(tg);
     const dm=mk(new T.BoxGeometry(18,80,340),conc);dm.position.set(-HALF+38,SCN.water+16,0);world.add(dm)}
-  else if(si===7){ // 松尾鉱山：霧の高原に並ぶ鉄筋アパート群と煙突。硫黄で木の生えない地面
+  else if(si===7){ // 煙平鉱山：霧の高原に並ぶ鉄筋アパート群と煙突。硫黄で木の生えない地面
     const c=pts[1],wm3=L(0x1c1f1f);
     for(let r=0;r<3;r++)for(let i=0;i<4;i++){const [x,z]=P(Lg-64+r*30,(i-1.5)*34);if(Math.hypot(x-c[0],z-c[1])<21||!free(x,z,9))continue;const g=new T.Group();g.add(mk(new T.BoxGeometry(8,13,24),L(0xa4a6a0,{map:TX.conc}),0,6.5,0));
       for(const sx of[-4.06,4.06])for(let f=0;f<3;f++)for(let k=0;k<6;k++)g.add(mk(new T.BoxGeometry(.1,1.5,1.5),wm3,sx,2.6+f*3.8,-9.4+k*3.75));
       at(g,x,z,-.4,ang);[-8,0,8].forEach(q=>ob(x+ux*q,z+uz*q,4.7))}
     const [cx,cz]=P(Lg-96,84);if(ok(cx,cz)){at(mk(new T.CylinderGeometry(1.6,2.5,50,10),conc),cx,cz,25);ob(cx,cz,2.7)}
     for(let i=0;i<80;i++){const x=(rnd()-.5)*(W-90),z=(rnd()-.5)*(W-90);if(free(x,z,6))at(mk(new T.ConeGeometry(.9,1.1,5),L(0x4a4030)),x,z,.5)}}
-  else if(si===8){ // 杉沢村：朽ちた鳥居、その下の髑髏に見える石、立入を拒む看板
+  else if(si===8){ // 骨沢村：朽ちた鳥居、その下の髑髏に見える石、立入を拒む看板
     const [x,z]=P(Lg-62,0),tg=new T.Group(),rot=L(0x3a2a22),bone=L(0xd8d4c6),bk=new T.MeshBasicMaterial({color:0x0a0a0a});
     tg.add(mk(new T.CylinderGeometry(.5,.6,10,8),rot,-4.8,5,0));const p2=mk(new T.CylinderGeometry(.5,.6,10,8),rot,4.8,5,0);p2.rotation.z=-.08;tg.add(p2);
     const ks=mk(new T.BoxGeometry(13.4,.8,.9),rot,0,10,0);ks.rotation.z=.1;tg.add(ks);const nk=mk(new T.BoxGeometry(11,.5,.7),rot,.4,7.6,0);nk.rotation.z=-.14;tg.add(nk);
     [-6.8,6.9].forEach(q=>{tg.add(mk(new T.DodecahedronGeometry(1.4,0),bone,q,1.1,1.4));tg.add(mk(new T.SphereGeometry(.3,8,6),bk,q-.45,1.45,2.5));tg.add(mk(new T.SphereGeometry(.3,8,6),bk,q+.45,1.45,2.5));tg.add(mk(new T.BoxGeometry(.2,.35,.1),bk,q,.85,2.72))});
     at(tg,x,z,-.3,back);[-4.8,4.8].forEach(q=>ob(x+q*Math.cos(back),z-q*Math.sin(back),.7));[-6.8,6.9].forEach(q=>ob(x+q*Math.cos(back),z-q*Math.sin(back),1.3,H(x,z)+2.3));
     const [gx,gz]=P(Lg-78,9);at(signBoard(['ここから先へ立ち入る者','命の保証はない']),gx,gz,0,back);ob(gx,gz,1)}
-  else if(si===9){ // 犬鳴村：ブロックで塞がれた旧トンネルと、噂の看板
+  else if(si===9){ // 吠森村：ブロックで塞がれた旧トンネルと、噂の看板
     const [x,z]=P(Lg+23,0);at(tunnel(1,0x1c2230),x,z,-.5,back);ob(x,z,9.5);
     const [gx,gz]=P(Lg-42,9);at(signBoard(['この先','日本国憲法 通用せず']),gx,gz,0,back);ob(gx,gz,1)}
 }
