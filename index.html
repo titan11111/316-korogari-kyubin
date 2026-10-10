@@ -170,25 +170,38 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
 .news.dark .art .note{border-color:var(--blood)}
 .news.dark .stamp{background:rgba(18,9,9,.8)}
 
-/* ファミコンコントローラー（画面下25%。左親指＝十字、中央＝SELECT/START縦、右親指＝BとA） */
-#control-deck{flex:0 0 25%;height:25%;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:6px 8px max(8px,env(safe-area-inset-bottom,8px));background:#2a0c12}
-.fc{pointer-events:auto;width:min(520px,100%);height:100%;max-height:100%;background:var(--fc-red);border-radius:12px;padding:6px;box-shadow:0 6px 0 #4d0f17}
-.plate{height:100%;background:linear-gradient(180deg,#e2c36f,var(--fc-gold));border-radius:6px;padding:6px;display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:space-between;gap:12px}
+/* ファミコンコントローラー（画面下25%。筐体は錆びた鉄。左親指＝十字、中央＝SELECT/START縦、右親指＝BとA） */
+#control-deck{flex:0 0 25%;height:25%;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:6px 8px max(8px,env(safe-area-inset-bottom,8px));background:#140e0c}
+.fc{pointer-events:auto;width:min(520px,100%);height:100%;max-height:100%;border-radius:12px;padding:6px;box-shadow:0 6px 0 #1c1210;
+  background:
+    radial-gradient(circle at 8% 18%,#a34b28 0 7%,transparent 18%),
+    radial-gradient(circle at 92% 84%,#7a3018 0 10%,transparent 24%),
+    linear-gradient(180deg,#4a403c,#2e2826 60%,#241c1a)}
+.plate{height:100%;border-radius:6px;padding:6px;display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:space-between;gap:12px;
+  background:
+    radial-gradient(circle at 16% 28%,#c4622e 0 9%,transparent 20%),
+    radial-gradient(circle at 74% 22%,#8d4a2c 0 6%,transparent 16%),
+    radial-gradient(circle at 62% 78%,#6e2e18 0 14%,transparent 28%),
+    radial-gradient(circle at 38% 64%,#b8b2aa 0 4%,transparent 12%),
+    linear-gradient(160deg,#6a6560 0%,#514c48 42%,#3c3836 100%)}
 #dp{position:relative;width:min(112px,30vw);height:min(112px,100%);aspect-ratio:1;flex:none;cursor:pointer}
-#dp i{position:absolute;background:var(--fc-black);border-radius:5px;box-shadow:0 3px 0 #000;pointer-events:none}
+#dp i{position:absolute;border-radius:5px;box-shadow:0 3px 0 #1a100c;pointer-events:none;
+  background:linear-gradient(180deg,#3a302c,#241c1a)}
 #dp .h{left:0;right:0;top:32.7%;height:34.5%}
 #dp .v{top:0;bottom:0;left:32.7%;width:34.5%}
-#dp b{position:absolute;left:40.5%;top:40.5%;width:19%;height:19%;border-radius:50%;background:#33333a;transform:translate(var(--dx,0px),var(--dy,0px));pointer-events:none}
+#dp b{position:absolute;left:40.5%;top:40.5%;width:19%;height:19%;border-radius:50%;background:#5c4034;box-shadow:inset 0 0 0 2px #2a1c16;transform:translate(var(--dx,0px),var(--dy,0px));pointer-events:none}
 .mid{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-width:0;height:100%}
-.mid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:68px;height:52px;min-width:48px;min-height:48px;border:0;border-radius:12px;background:#3a3a40;box-shadow:0 3px 0 #000;color:#cfa94e;line-height:1}
+.mid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:68px;height:52px;min-width:48px;min-height:48px;border:0;border-radius:12px;box-shadow:0 3px 0 #1a100c;color:#f0c2a0;line-height:1;
+  background:linear-gradient(180deg,#4a342c,#2c201c)}
 .mid button b{font-size:11px;font-weight:900;letter-spacing:.04em;pointer-events:none}
-.mid button small{font-size:9px;font-weight:700;letter-spacing:.08em;color:#e2c36f;pointer-events:none}
+.mid button small{font-size:9px;font-weight:700;letter-spacing:.08em;color:#d4895c;pointer-events:none}
 .ab{display:flex;gap:14px;align-items:center;flex:none}
-.ab button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:62px;height:62px;min-width:48px;min-height:48px;border-radius:50%;border:0;background:var(--fc-black);box-shadow:0 4px 0 #000;color:#cfa94e;line-height:1}
+.ab button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:62px;height:62px;min-width:48px;min-height:48px;border-radius:50%;border:0;box-shadow:0 4px 0 #1a100c;color:#f2c7a8;line-height:1;
+  background:radial-gradient(circle at 40% 35%,#5a4036,#241814 72%)}
 .ab button b{font-size:18px;font-weight:900;pointer-events:none}
-.ab button small{font-size:9px;font-weight:700;letter-spacing:.04em;pointer-events:none}
-.ab button.on,.ab button:active{transform:translateY(3px) scale(.96);box-shadow:0 1px 0 #000;background:#35353c}
-.mid button:active,.mid button.is-pressed{transform:scale(.92)}
+.ab button small{font-size:9px;font-weight:700;letter-spacing:.04em;color:#e08a52;pointer-events:none}
+.ab button.on,.ab button:active{transform:translateY(3px) scale(.96);box-shadow:0 1px 0 #1a100c;background:radial-gradient(circle at 40% 35%,#6a4838,#2e201c 72%)}
+.mid button:active,.mid button.is-pressed{transform:scale(.92);background:linear-gradient(180deg,#5a4034,#342420)}
 @media (max-width:360px){
   #dp{width:96px;height:96px}
   .mid button{width:56px;height:48px}
