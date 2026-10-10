@@ -1024,7 +1024,6 @@ function goBrief(i){loadStage(i);state='brief';
   let h='<dt>お届け先</dt><dd><b>'+S.name+'</b>（'+S.pref+'）</dd><dt>現地</dt><dd>'+SCENE[i]+'</dd>';
   S.cust.forEach((c,j)=>{h+='<dt>受取人'+(S.cust.length>1?(j+1):'')+'</dt><dd><b>'+c.n+'</b><br>'+c.q+(c.in?'<br><b>屋内配達</b>：赤い鴨居の戸口から家の中へ転がり込んで届ける（裏と横にも抜け口あり）。':'')+'</dd><dt>依頼の品'+(S.cust.length>1?(j+1):'')+'</dt><dd><b>'+ITEM[c.n]+'</b></dd>'});
   h+='<dt>制限</dt><dd>偽配達人の軽トラは約<b>'+Math.round(TR.par+TR.delay)+'秒</b>で到着。先を越されると受け取り拒否。</dd>';
-  h+='<dt>操作</dt><dd>左右で曲がる。<b>B</b> を押し続けて加速（最速 500km/h）。<b>A</b> でジャンプ。</dd>';
   $('bList').innerHTML=h;music('title');show('brief')}
 function startRun(){audioOn();mDuck=1;music(si>=7?'dark':'run');state='count';countT=3;endWin=null;show('');$('hName').textContent='第'+(si+1)+'便 '+S.name;$('big').hidden=false;hud();toast('営業所「'+custs[0].n.split(' ').pop()+'様あて、'+ITEM[custs[0].n]+'。至急」',3200)}
 let endWin=null;
