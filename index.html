@@ -154,17 +154,17 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
 /* 結果＝古い怪奇新聞。横書きで上から読む。紙面だけ縦に送り、横には流さない */
 .news{width:min(440px,100%);height:100%;min-height:0;display:flex;flex-direction:column;gap:8px;box-sizing:border-box}
 .paper{position:relative;flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;
-  display:flex;flex-direction:column;gap:8px;padding:12px 14px;box-sizing:border-box;
+  display:flex;flex-direction:column;gap:calc(8px*var(--k,1));padding:12px 14px;box-sizing:border-box;
   color:var(--news-ink);font-family:var(--f-horror);font-weight:800;
   background:radial-gradient(ellipse at 18% 80%,rgba(90,60,20,.28),transparent 45%),radial-gradient(ellipse at 85% 10%,rgba(90,60,20,.2),transparent 40%),var(--news);
   border:1px solid var(--news-ink);outline:3px double var(--news-ink);outline-offset:-7px;box-shadow:0 18px 50px rgba(0,0,0,.6)}
 .mast{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:var(--news-ink);color:var(--news);padding:8px 10px;font-family:var(--f-news);font-weight:400}
-.mast span{font-size:clamp(20px,5.4vw,28px);letter-spacing:.06em;line-height:1.2;white-space:nowrap}
+.mast span{font-size:calc(clamp(20px,5.4vw,28px)*var(--k,1));letter-spacing:.06em;line-height:1.2;white-space:nowrap}
 .mast small{font-size:12px;letter-spacing:.08em;font-family:var(--f-horror);white-space:nowrap}
-.paper h2{font-family:var(--f-news);font-weight:400;font-size:clamp(26px,7.2vw,40px);line-height:1.25;letter-spacing:.04em;margin:0;padding:0 0 8px;border-bottom:3px solid var(--news-ink);color:var(--news-ink);white-space:pre-line}
-.paper .say{font-family:var(--f-horror);font-size:clamp(15px,4vw,18px);line-height:1.55;margin:0;padding:2px 0 2px 10px;border-left:3px solid var(--news-ink)}
-.art{display:flex;flex-direction:column;gap:8px}
-.art p{margin:0;font-size:14.5px;line-height:1.65;text-align:start;font-weight:800;overflow-wrap:anywhere}
+.paper h2{font-family:var(--f-news);font-weight:400;font-size:calc(clamp(26px,7.2vw,40px)*var(--k,1));line-height:1.25;letter-spacing:.04em;margin:0;padding:0 0 calc(8px*var(--k,1));border-bottom:3px solid var(--news-ink);color:var(--news-ink);white-space:pre-line}
+.paper .say{font-family:var(--f-horror);font-size:calc(clamp(15px,4vw,18px)*var(--k,1));line-height:1.55;margin:0;padding:2px 0 2px 10px;border-left:3px solid var(--news-ink)}
+.art{display:flex;flex-direction:column;gap:calc(8px*var(--k,1))}
+.art p{margin:0;font-size:calc(14.5px*var(--k,1));line-height:1.65;text-align:start;font-weight:800;overflow-wrap:anywhere}
 .art .note{border:1px solid var(--news-ink);padding:8px 10px}
 .mast .stamp{top:50%;right:10px;width:calc(2em + 18px);margin-top:-22px;font-size:15px;line-height:1.1;letter-spacing:0;text-align:center;padding:3px 6px;border-width:3px;background:rgba(214,204,178,.9)}
 .news .row{flex:none;flex-wrap:nowrap;gap:8px}
@@ -415,7 +415,11 @@ function fitOv(){for(const id of ['title','select','brief','result']){const sec=
   const b=sec.querySelector('.box,.slip,.news');if(!b)continue;
   b.style.transform='';const r=b.getBoundingClientRect();
   const k=Math.min(1,(sec.clientHeight-24)/(r.height||1),(sec.clientWidth-16)/(r.width||1));
-  if(k<.999)b.style.transform='scale('+k.toFixed(3)+')'}}
+  if(k<.999)b.style.transform='scale('+k.toFixed(3)+')';
+  // 新聞は紙面の中で縦に送らずに済むよう、はみ出す分だけ文字を縮める（下限72%）
+  const pa=b.querySelector('.paper');if(pa){let f=1;b.style.setProperty('--k','1');
+    const over=()=>pa.lastElementChild.getBoundingClientRect().bottom+pa.scrollTop-pa.getBoundingClientRect().top+16>pa.clientHeight;
+    while(over()&&f>.73){f-=.03;b.style.setProperty('--k',f.toFixed(2))}}}}
 addEventListener('resize',resize);
 sunL.castShadow=true;sunL.shadow.mapSize.set(LOW?1024:2048,LOW?1024:2048);Object.assign(sunL.shadow.camera,{left:-80,right:80,top:80,bottom:-80,near:10,far:460});sunL.shadow.bias=-.0007;scene.add(sunL.target);
 const lamp=new T.SpotLight(0xfff0d8,0,100,.52,.75,1.1);scene.add(lamp,lamp.target);
