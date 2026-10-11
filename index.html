@@ -142,6 +142,17 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
 #dDoom{margin:0 auto;max-width:30em;font-size:clamp(15px,3.6vw,22px);line-height:1.9;color:var(--paper);text-shadow:0 2px 6px #000;min-height:5.7em}
 @keyframes shk{0%{transform:translate(1px,0)}100%{transform:translate(-1px,1px)}}
 @media (prefers-reduced-motion:reduce){#dSay{animation:none}}
+/* 全村制覇のエンディング：受取人が一人ずつ、怖いなりに配達人を讃える。背後の村と赤い目は見せたまま */
+#fin{position:absolute;inset:0;z-index:3;display:grid;grid-template-rows:minmax(0,1fr) auto;padding:16px 16px 12px;text-align:center;font-family:var(--f-horror);font-weight:800;cursor:pointer;
+  background:radial-gradient(circle at 50% 42%,rgba(18,0,0,.3) 8%,rgba(8,0,0,.93) 72%)}
+#fin .fbox{display:grid;align-content:center;justify-items:center;gap:clamp(10px,2.4vh,18px);min-height:0;overflow:hidden}
+#fHead{margin:0;font-size:12px;letter-spacing:.4em;text-indent:.4em;color:var(--paper-dim)}
+#fWho{margin:0;font-size:clamp(15px,4vw,20px);letter-spacing:.12em;color:var(--paper);text-shadow:0 2px 6px #000}
+#fWho small{display:block;font-size:11px;letter-spacing:.2em;color:var(--moss);margin-bottom:4px}
+#fSay{margin:0;max-width:21em;font-size:clamp(18px,4.8vw,30px);line-height:1.6;color:var(--blood);text-shadow:0 0 18px rgba(212,22,28,.7),0 2px 0 #000;min-height:3.2em}
+#fAside{margin:0;max-width:26em;font-size:clamp(13px,3.4vw,18px);line-height:1.8;color:var(--paper);text-shadow:0 2px 6px #000;min-height:3.6em}
+#fin .frow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:var(--paper-dim);letter-spacing:.12em}
+#fSkip{background:transparent;border:1px solid var(--line);border-radius:3px;padding:8px 14px;min-height:40px;color:var(--paper);font-family:var(--f-horror);font-weight:800;font-size:13px;letter-spacing:.2em}
 .slip.dark{background:#160708;color:var(--paper);box-shadow:0 0 70px rgba(212,22,28,.45)}
 .slip.dark::before{background:repeating-linear-gradient(90deg,var(--blood) 0 14px,transparent 14px 22px)}
 .slip.dark h2{color:var(--blood);font-family:var(--f-horror)}
@@ -261,6 +272,7 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
     <div id="big" hidden></div>
   </div>
   <div id="doom" hidden><p id="dSay"></p><p id="dDoom"></p></div>
+  <section id="fin" hidden aria-live="polite"><div class="fbox"><p id="fHead">受取人一同より</p><p id="fWho"></p><p id="fSay"></p><p id="fAside"></p></div><div class="frow"><span id="fCnt"></span><span>画面に触れる</span><button id="fSkip" type="button">とばす</button></div></section>
 
   <section class="ov" id="title">
     <i class="eye" style="--x:9%;--y:24%;--d:6s"></i><i class="eye" style="--x:82%;--y:31%;--d:9.5s"></i><i class="eye" style="--x:16%;--y:76%;--d:12s"></i><i class="eye" style="--x:74%;--y:82%;--d:15.5s"></i>
@@ -1090,7 +1102,7 @@ function syncMeshes(dt){
   sunL.target.position.set(P.x,P.y,P.z);sunL.position.set(P.x-70,P.y+130,P.z+85);
   if(!failC){const fx=Math.sin(P.heading),fz=Math.cos(P.heading);lamp.position.set(P.x-fx*2,P.y+3.2,P.z-fz*2);lamp.target.position.set(P.x+fx*24,P.y-1,P.z+fz*24)}
   for(const c of custs){const u=c.h&&c.h.userData;if(u&&u.hd&&!failC){u.hd.rotation.z=Math.sin(anim*.6+c.ph)*.14+(Math.sin(anim*1.7+c.ph*3)>.992?.6:0);u.hd.rotation.y=Math.sin(anim*.4+c.ph)*.08}}
-  for(const c of custs)if(c.lb)c.lb.visible=state!=='brief'&&!failC;
+  for(const c of custs)if(c.lb)c.lb.visible=state!=='brief'&&!failC&&!fin;
   for(const q of sway)q.rotation.x=Math.sin(anim*1.3+q.position.x)*.25;
   for(const m of mist){m.sp.position.set(m.x+Math.sin(anim*.05+m.ph)*30,H(m.x,m.z)+5+Math.sin(anim*.2+m.ph)*1.5,m.z+Math.cos(anim*.04+m.ph)*30)}
   if(stalker.visible){stalker.position.set(stk.x,H(stk.x,stk.z)+.35+Math.sin(anim*2.4)*.18,stk.z);stalker.rotation.y=Math.atan2(P.x-stk.x,P.z-stk.z);stalker.rotation.z=Math.sin(anim*6)*.025;
@@ -1142,7 +1154,7 @@ function hud(){
 let save={un:1,best:[]};
 try{const s=JSON.parse(localStorage.getItem('korogari-kyubin')||'null');if(s&&s.best)save=s}catch(_){}
 const store=()=>{try{localStorage.setItem('korogari-kyubin',JSON.stringify(save))}catch(_){}};
-const show=id=>{['title','select','brief','result'].forEach(k=>$(k).hidden=k!==id);$('hud').hidden=!(state==='play'||state==='count');$('doom').hidden=true;requestAnimationFrame(fitOv)};
+const show=id=>{fin=null;$('fin').hidden=true;['title','select','brief','result'].forEach(k=>$(k).hidden=k!==id);$('hud').hidden=!(state==='play'||state==='count');$('doom').hidden=true;requestAnimationFrame(fitOv)};
 function goSelect(){state='select';mDuck=1;music('title');const g=$('grid');g.innerHTML='';
   STAGES.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='tile';b.disabled=i>=save.un;
     b.innerHTML='<span class="no">第'+(i+1)+'便</span><b>'+s.name+'</b><small>'+s.pref+'</small><span class="bt">'+(save.best[i]?'最速 '+save.best[i].toFixed(1)+'秒':i<save.un?'未配達':'前の村をクリアで解放')+'</span>';
@@ -1157,7 +1169,8 @@ let endWin=null;
 function bestAvg(){let s=0;for(let i=0;i<STAGES.length;i++){const v=save.best[i];if(!(v>0))return null;s+=v}return s/STAGES.length}
 function win(){stalker.visible=false;stk.on=false;state='end';endWin=true;endT=0;music('dawn');const t=time,old=save.best[si];if(!old||t<old)save.best[si]=t;if(save.un<si+2)save.un=Math.min(STAGES.length,si+2);store();
   const last=si===STAGES.length-1,c=custs[custs.length-1];
-  setTimeout(()=>{if(state!=='end'||endWin!==true)return;
+  setTimeout(()=>{if(state!=='end'||endWin!==true)return;if(last)finStart(news);else news()},1500);
+  function news(){if(state!=='end'||endWin!==true)return;
     const avg=last?bestAvg():null,dawn=avg!=null&&avg<30,sec=avg==null?'':kan(avg.toFixed(1));
     $('rSlip').className=dawn?'news dawn':'news';
     $('rMast').textContent=dawn?'朝刊　廃村だより':(last?'号外　廃村恐怖新聞':'廃村恐怖新聞');
@@ -1169,7 +1182,7 @@ function win(){stalker.visible=false;stk.on=false;state='end';endWin=true;endT=0
       ?'<p>十便の平均は'+sec+'秒。呪いが宛名を書き終えるより早く、配達員は十の村を転がって過ぎた。翌朝、戸口にあったのは今日の新聞だけ。</p><p class="note">◆記録　十便の最速を平均して、三十秒を切った。</p>'
       :'<p>配達員は十の村すべてに荷物を置いてきた。偽配達人の軽トラは、どの村でも間に合わなかった。帰路は、どの地図にも載っていない。</p><p>'+(avg==null?'十便の最速が揃えば、本紙は平均を測る。':'十便の平均は'+sec+'秒。朝刊は、三十秒を切ったときだけ出る。')+'</p><p class="note">◆備考　で、あなたは、どうやって帰るの？</p>')
       :'<p>【'+S.name+'発】配達員は'+S.pref.replace('・','の')+'で、'+c.n+'に「'+ITEM[c.n]+'」を届けた。所要'+kan(t.toFixed(1))+'秒'+(!old||t<old?'、自己最速。':'（最速'+kan(old.toFixed(1))+'秒）。')+'軽トラは、あと'+kan(TR.eta.toFixed(1))+'秒まで迫っていた。配達員は無言で寝そべり、転がり去った。</p><p class="note">◆備考　'+(NOTE[c.n]||'受け取った客は、あなたが見えなくなるまで、ずっとこちらを見ていた。')+'</p>';
-    $('rNext').textContent=last?'村をえらぶ':'次の廃村へ';$('rNext').hidden=false;$('rSel').hidden=last;show('result')},1500)}
+    $('rNext').textContent=last?'村をえらぶ':'次の廃村へ';$('rNext').hidden=false;$('rSel').hidden=last;show('result')}}
 const DOOM={
  'なぜか住んでる人 トメさん':'受け取り手のない荷物は、配達人のものになる。帰り道、箱の内側から爪を立てる音がする。',
  '呪いの地蔵':'地蔵は四体。今夜から、五体目が要る。——あなたの足先が、もう石になりはじめている。',
@@ -1197,6 +1210,31 @@ const NOTE={
  '鉱山アパートの幽霊':'伝票の日付は、何十年も前のままだった。',
  '管理人を名乗る男':'管理人室の鍵は、外から錆びついていた。',
  '巨大たぬき親分':'全村制覇。……で、あなたは、どうやって帰るの？'};
+// 全村制覇のエンディング。[便, 受取人, 讃える言葉, そのあと]
+const FIN=[
+ [0,0,'あら、いちばん早い配達だったよ。あんたなら、ずっとここに住めるねえ','集落の墓地に、名字の彫られていない墓石が一基増えていた。'],
+ [1,0,'……見事。褒美に、われらが守ってやろう。一生、そばで','帰り道、振り返るたびに、地蔵が一体ずつ近くにいる。'],
+ [2,0,'ぽんぽこ！ あっぱれな転がりっぷり。お礼の小判、ほんものだよ。……今夜だけはね','財布の中で、何かがかさりと鳴った。'],
+ [3,0,'静かな、ええ足音やった。三十年ぶりに、よう眠れたわ。……兄ちゃんも、ここで眠ってええんやで','奥の間に、布団がもう一組、敷いてあった。'],
+ [4,0,'ほっほ、見事な飛びっぷり。わしも昔は、あんたほど速かった。……あの崖から落ちるまではの','岩の下に、古い草鞋が片方だけ落ちている。'],
+ [5,0,'あ、あの……すごかった、です。お礼に、いちばんよく切れる包丁……研いでおきました……','包丁は、刃をこちらに向けて差し出された。'],
+ [6,0,'カパッ！ おぬしの脚、見事じゃ。……湖の底にも、一本ほしいのう','水面から、水かきのある手がいくつも、拍手をしていた。'],
+ [7,0,'……はんこ、押せないから……かわりに、あなたの名前、覚えたよ……ずっと……忘れない……','伝票の受領印の欄に、濡れた指で、あなたの名前が書いてあった。'],
+ [8,0,'……天晴。七体目の台座は、空けておく','台座の大きさは、ちょうど人ひとり分だった。'],
+ [8,1,'お見事でした。ところで、入ってきた道を覚えていますか。……いいんです。もう、出る必要はありませんから','管理人室の名簿の最後に、あなたの名前が書き足された。'],
+ [9,0,'……あなたほど速い人に……生きてるうちに……会いたかった……','塞がれたトンネルの奥から、同じ声が、少し遅れて返ってきた。'],
+ [9,1,'妹から聞いてたの。……本当に速いのね。逃げても、無駄なくらい','姉は、今度は逃げなかった。'],
+ [9,2,'ぽんぽこぽん！ 全村制覇、あっぱれじゃ！ 今宵は村じゅうで祝いの宴、主賓はおぬしじゃ。……帰さんぞ','宴の席には、十の村の受取人が、ひとり残らず並んでいた。'],
+ [-1,0,'ご苦労さまでした。あなたは、最高の配達人です','拍手は、夜明けまでやまなかった。手の数は、受取人の数より、ずっと多かった。']];
+let fin=null;
+function finShow(i){fin.i=i;fin.t=0;const f=FIN[i],w=$('fWho');w.textContent='';const sm=document.createElement('small');
+  if(f[0]<0){sm.textContent='十の村より';w.append(sm,'受取人一同')}
+  else{const s=STAGES[f[0]];sm.textContent='第'+(f[0]+1)+'便　'+s.name;w.append(sm,s.cust[f[1]].n.split(' ').pop())}
+  $('fSay').textContent='';$('fAside').textContent='';$('fCnt').textContent=(i+1)+' / '+FIN.length;sfx.whisper()}
+function finTick(dt){fin.t+=dt;const f=FIN[fin.i],a=f[2].length/12+.5;$('fSay').textContent=f[2].slice(0,Math.max(0,(fin.t*12)|0));$('fAside').textContent=f[3].slice(0,Math.max(0,((fin.t-a)*15)|0))}
+function finStart(cb){show('');fin={i:0,t:0,cb};$('fin').hidden=false;finShow(0)}
+function finNext(){if(!fin)return;const f=FIN[fin.i];if(fin.t<f[2].length/12+.5+f[3].length/15){fin.t=99;return}if(fin.i<FIN.length-1)finShow(fin.i+1);else finEnd()}
+function finEnd(){if(!fin)return;const cb=fin.cb;fin=null;$('fin').hidden=true;cb()}
 const EYEH={normal:3.5,jizo:3.75,wander:8.6,gentle:3.55,high:5.75,flee:3.5,fetch:3,ghost:4.15};
 function fail(){state='end';endWin=false;endT=0;music('');const c=custs[cur];failC=c;sfx.horn();setTimeout(sfx.dread,250);
   let tx=c.x,tz=c.z;if(c.t==='jizo'){const s=c.st.find(s=>s.real);tx=s.x;tz=s.z}
@@ -1223,6 +1261,10 @@ press($('bStart'),()=>{audioOn();goSelect()});
 press($('bGo'),startRun);press($('bBack'),goSelect);press($('rSel'),goSelect);press($('quit'),goSelect);
 press($('rRetry'),()=>{loadStage(si);startRun()});
 press($('rNext'),()=>{if(si<STAGES.length-1)goBrief(si+1);else goSelect()});
+$('fin').addEventListener('pointerdown',e=>{e.preventDefault();buzz();finNext()});
+$('fSkip').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();buzz();finEnd()});
+$('bA').addEventListener('pointerdown',()=>{if(fin)finNext()});
+addEventListener('keydown',e=>{if(fin&&(e.key===' '||e.key==='Enter')){e.preventDefault();finNext()}});
 press($('bSel'),goSelect);
 press($('bSta'),togglePause);
 const soundLbl=()=>$('bSound').textContent='音：'+(soundOn?'あり':'なし');soundLbl();
@@ -1242,13 +1284,13 @@ function frame(now){
     if(countT<=0&&state==='count'){state='play';pl.upT=0;sfx.bump()}
     stepCusts(0)}
   if(state==='play'){readInput();step(dt);if(TR.eta<8||(stk.on&&stk.d<22)){hbT-=dt;if(hbT<=0){sfx.heart();hbT=.42+TR.eta*.07}}if(countT>-.6){countT-=dt;if(countT<=-.6)$('big').hidden=true}hud()}
-  else if(state==='end'){endT+=dt;if(endWin&&endT>3.2&&!winRed){winRed=1;const c=custs[custs.length-1];(c.t==='jizo'?c.st.find(q=>q.real).m:c.g).traverse(o=>{if(o.userData.red)o.visible=true});sfx.whisper()}if(failC){$('dSay').textContent=failTxt[0].slice(0,Math.max(0,((endT-.9)*13)|0));$('dDoom').textContent=failTxt[1].slice(0,Math.max(0,((endT-3.2)*15)|0))}inp.steer=0;inp.thr=endWin&&endT>1.6?1:0;inp.jump=inp.dash=false;stepPlayer(dt);if(endWin===false&&TR.s<TR.total){TR.s=Math.min(TR.total,TR.s+TR.v*dt*.5);placeTruck()}stepCusts(dt)}
+  else if(state==='end'){endT+=dt;if(fin)finTick(dt);if(endWin&&endT>3.2&&!winRed){winRed=1;const c=custs[custs.length-1];(c.t==='jizo'?c.st.find(q=>q.real).m:c.g).traverse(o=>{if(o.userData.red)o.visible=true});sfx.whisper()}if(failC){$('dSay').textContent=failTxt[0].slice(0,Math.max(0,((endT-.9)*13)|0));$('dDoom').textContent=failTxt[1].slice(0,Math.max(0,((endT-3.2)*15)|0))}inp.steer=0;inp.thr=endWin&&endT>1.6?1:0;inp.jump=inp.dash=false;stepPlayer(dt);if(endWin===false&&TR.s<TR.total){TR.s=Math.min(TR.total,TR.s+TR.v*dt*.5);placeTruck()}stepCusts(dt)}
   else stepCusts(dt);
   motionSnd();syncMeshes(dt);camera(dt);draw(now);requestAnimationFrame(frame);
 }
 (()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),d=g.createImageData(128,128);for(let i=0;i<d.data.length;i+=4){const v=(Math.random()*255)|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}g.putImageData(d,0,0);$('grain').style.backgroundImage='url('+c.toDataURL()+')'})();
 resize();loadStage(9);state='title';show('title');
-window.__g={get draws(){return drawN},get q(){return qLo},adv(t){endT+=t},load:loadStage,step,inp,pl,TR,get custs(){return custs},get muds(){return muds},get cur(){return cur},get state(){return state},set state(v){state=v},get time(){return time},set time(v){time=v},H,STAGES,get music(){return{cur:mCur,want:mWant,paused:mEl?mEl.paused:null,t:mEl?+mEl.currentTime.toFixed(1):0,gain:mG?+mG.gain.value.toFixed(2):null,bad:mBad}},get snd(){return{roll:rollG?+rollG.gain.value.toFixed(3):0,th:thG?+thG.gain.value.toFixed(3):0,rev:revG?+revG.gain.value.toFixed(3):0,hz:rollF?Math.round(rollF.frequency.value):0,rate:rollSrc?+rollSrc.playbackRate.value.toFixed(2):0}},win:()=>win(),fail:()=>fail()};
+window.__g={get draws(){return drawN},get q(){return qLo},adv(t){endT+=t},load:loadStage,step,inp,pl,TR,get custs(){return custs},get muds(){return muds},get cur(){return cur},get state(){return state},set state(v){state=v},get time(){return time},set time(v){time=v},H,STAGES,get music(){return{cur:mCur,want:mWant,paused:mEl?mEl.paused:null,t:mEl?+mEl.currentTime.toFixed(1):0,gain:mG?+mG.gain.value.toFixed(2):null,bad:mBad}},get snd(){return{roll:rollG?+rollG.gain.value.toFixed(3):0,th:thG?+thG.gain.value.toFixed(3):0,rev:revG?+revG.gain.value.toFixed(3):0,hz:rollF?Math.round(rollF.frequency.value):0,rate:rollSrc?+rollSrc.playbackRate.value.toFixed(2):0}},win:()=>win(),fail:()=>fail(),get fin(){return fin?{i:fin.i,n:FIN.length}:null},finNext:()=>finNext()};
 requestAnimationFrame(frame);
 })();
 </script>
