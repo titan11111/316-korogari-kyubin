@@ -191,42 +191,43 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
     radial-gradient(ellipse at 8% 88%,rgba(157,187,98,.16),transparent 26%),
     radial-gradient(ellipse at 86% 18%,rgba(212,22,28,.28),transparent 34%),
     linear-gradient(180deg,#241412 0%,#140c0b 58%,#0e0908 100%)}
-.plate{height:100%;border-radius:2px;padding:6px;display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:space-between;gap:12px;
+.plate{height:100%;border-radius:2px;padding:6px;display:grid;grid-template-columns:auto auto auto;align-items:center;justify-content:space-between;gap:8px;
   box-shadow:inset 0 0 0 1px rgba(214,204,178,.16),inset 0 10px 22px rgba(0,0,0,.45);
   background:
     radial-gradient(ellipse at 18% 80%,rgba(157,187,98,.08),transparent 32%),
     radial-gradient(ellipse at 78% 24%,rgba(212,22,28,.14),transparent 36%),
     linear-gradient(180deg,#1c1211,#100c0b)}
-#dp{position:relative;width:min(112px,30vw);height:min(112px,100%);aspect-ratio:1;flex:none;cursor:pointer}
-#dp i{position:absolute;border-radius:5px;box-shadow:0 3px 0 #070504;pointer-events:none;
-  background:linear-gradient(180deg,#2c1614,#120c0b)}
-#dp .h{left:0;right:0;top:32.7%;height:34.5%}
-#dp .v{top:0;bottom:0;left:32.7%;width:34.5%}
-#dp b{position:absolute;left:40.5%;top:40.5%;width:19%;height:19%;border-radius:50%;background:#4a1816;box-shadow:inset 0 0 0 2px #1a0c0a;transform:translate(var(--dx,0px),var(--dy,0px));pointer-events:none}
+#dp{position:relative;width:var(--dp,112px);height:var(--dp,112px);flex:none;cursor:pointer;filter:drop-shadow(0 0 7px rgba(212,22,28,.5))}
+#dp i{position:absolute;border-radius:6px;box-shadow:0 4px 0 #3a0c0c;pointer-events:none;
+  background:linear-gradient(180deg,#eee4cb,#bfb08c)}
+#dp .h{left:0;right:0;top:32.5%;height:35%}
+#dp .v{top:0;bottom:0;left:32.5%;width:35%}
+#dp i::before,#dp i::after{content:"";position:absolute;background:#2a1210}
+#dp .h::before,#dp .h::after{top:28%;width:11%;height:44%}
+#dp .h::before{left:5%;clip-path:polygon(0 50%,100% 0,100% 100%)}
+#dp .h::after{right:5%;clip-path:polygon(0 0,100% 50%,0 100%)}
+#dp .v::before,#dp .v::after{left:28%;width:44%;height:11%}
+#dp .v::before{top:5%;clip-path:polygon(50% 0,100% 100%,0 100%)}
+#dp .v::after{bottom:5%;clip-path:polygon(0 0,100% 0,50% 100%)}
+#dp.pl .h::before,#dp.pr .h::after,#dp.pu .v::before,#dp.pd .v::after{background:var(--blood)}
+#dp b{position:absolute;left:40.5%;top:40.5%;width:19%;height:19%;border-radius:50%;background:#8d1a1c;box-shadow:inset 0 0 0 2px #3a0c0c;transform:translate(var(--dx,0px),var(--dy,0px));pointer-events:none}
 .mid{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-width:0;height:100%}
-.mid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:68px;height:52px;min-width:48px;min-height:48px;border:0;border-radius:3px;box-shadow:0 3px 0 #070504;color:var(--paper);line-height:1;font-family:var(--f-horror);
+.mid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:54px;height:48px;min-width:48px;min-height:48px;border:0;border-radius:3px;box-shadow:0 3px 0 #070504,inset 0 0 0 1px rgba(214,204,178,.22);color:var(--paper);line-height:1;font-family:var(--f-horror);
   background:linear-gradient(180deg,#3a1816,#1a0e0c)}
-.mid button b{font-size:11px;font-weight:900;letter-spacing:.04em;pointer-events:none}
+.mid button b{font-size:10px;font-weight:900;letter-spacing:.02em;pointer-events:none}
 .mid button small{font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--news);pointer-events:none}
-.ab{display:flex;gap:14px;align-items:center;flex:none}
-.ab button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:62px;height:62px;min-width:48px;min-height:48px;border-radius:50%;border:0;box-shadow:0 4px 0 #070504;color:var(--paper);line-height:1;font-family:var(--f-horror);
-  background:radial-gradient(circle at 40% 35%,#4a1c1a,#140c0b 72%)}
-.ab button b{font-size:18px;font-weight:900;pointer-events:none}
-.ab button small{font-size:9px;font-weight:700;letter-spacing:.04em;color:#e7c2b4;pointer-events:none}
-#bB{box-shadow:0 4px 0 #070504,inset 0 0 0 2px #8d1a1c}
-#bA{box-shadow:0 4px 0 #070504,inset 0 0 0 2px var(--kaki)}
-.ab button.on,.ab button:active{transform:translateY(3px) scale(.96);box-shadow:0 1px 0 #070504;background:radial-gradient(circle at 40% 35%,#6a2420,#1c100e 72%)}
-#bB.on,#bB:active{box-shadow:0 1px 0 #070504,inset 0 0 0 2px #8d1a1c}
-#bA.on,#bA:active{box-shadow:0 1px 0 #070504,inset 0 0 0 2px var(--kaki)}
+.ab{position:relative;flex:none;width:calc(var(--ab,62px)*1.78);height:calc(var(--ab,62px)*1.72)}
+.ab button{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:var(--ab,62px);height:var(--ab,62px);min-width:48px;min-height:48px;border-radius:50%;border:0;color:var(--paper);line-height:1;font-family:var(--f-horror)}
+#bB{left:0;bottom:0}
+#bA{right:0;top:0}
+.ab button b{font-size:calc(var(--ab,62px)*.34);font-weight:900;pointer-events:none}
+.ab button small{font-size:10px;font-weight:700;letter-spacing:.04em;pointer-events:none}
+#bB{background:radial-gradient(circle at 40% 32%,#a3262a,#4a0e10 72%);box-shadow:0 4px 0 #070504,inset 0 0 0 3px #e0484a}
+#bA{background:radial-gradient(circle at 40% 32%,#c9672a,#5a250c 72%);box-shadow:0 4px 0 #070504,inset 0 0 0 3px #ffb070}
+.ab button.on,.ab button:active{transform:translateY(3px) scale(.96);filter:brightness(1.35)}
+#bB.on,#bB:active{box-shadow:0 1px 0 #070504,inset 0 0 0 3px #e0484a}
+#bA.on,#bA:active{box-shadow:0 1px 0 #070504,inset 0 0 0 3px #ffb070}
 .mid button:active,.mid button.is-pressed{transform:scale(.92);background:linear-gradient(180deg,#5a2420,#241210)}
-@media (max-width:360px){
-  #dp{width:96px;height:96px}
-  .mid button{width:56px;height:48px}
-  .mid button b{font-size:9px}
-  .ab{gap:10px}
-  .ab button{width:56px;height:56px}
-  .ab button b{font-size:16px}
-}
 </style>
 <style>body{margin:0}img{max-width:100%}</style>
     <meta property="og:title" content="ころがり急便">
@@ -404,7 +405,11 @@ const scene=new T.Scene();
 const cam=new T.PerspectiveCamera(62,1,.5,1500);
 const hemi=new T.HemisphereLight(0xffffff,0x554433,1); scene.add(hemi);
 const sunL=new T.DirectionalLight(0xffffff,.7); sunL.position.set(-140,220,160); scene.add(sunL);
-function resize(){const a=$('screen-wrap');const w=a.clientWidth||innerWidth,h=a.clientHeight||innerHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();fitOv()}
+// 十字とA/Bを操作盤の空きいっぱいに広げる（A/Bは斜め配置で幅を節約）
+function fitPad(){const pl=document.querySelector('.plate');if(!pl)return;const H=pl.clientHeight-12,Wd=pl.clientWidth-12;if(H<=0||Wd<=0)return;
+  const ab=Math.max(48,Math.min(84,Math.floor(H/1.72))),dp=Math.max(88,Math.min(170,H,Wd-54-Math.ceil(ab*1.78)-16));
+  pl.style.setProperty('--ab',ab+'px');pl.style.setProperty('--dp',dp+'px')}
+function resize(){fitPad();const a=$('screen-wrap');const w=a.clientWidth||innerWidth,h=a.clientHeight||innerHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();fitOv()}
 // 紙パネルは必ず画面内に収める。はみ出す分は縮小する（スクロールバーを出さない）
 function fitOv(){for(const id of ['title','select','brief','result']){const sec=$(id);if(!sec||sec.hidden)continue;
   const b=sec.querySelector('.box,.slip,.news');if(!b)continue;
@@ -886,10 +891,11 @@ addEventListener('keyup',e=>{const k=KM[e.key];if(k)K[k]=false});
 (()=>{const dp=$('dp');let id=null;
   const set=e=>{const r=dp.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5,ax=Math.abs(dx),ay=Math.abs(dy),z=.12;
     tin.l=dx<-z&&ax>ay*.45;tin.r=dx>z&&ax>ay*.45;tin.u=dy<-z&&ay>ax*.45;tin.d=dy>z&&ay>ax*.45;
-    dp.style.setProperty('--dx',(tin.r?6:tin.l?-6:0)+'px');dp.style.setProperty('--dy',(tin.d?6:tin.u?-6:0)+'px')};
+    dp.style.setProperty('--dx',(tin.r?6:tin.l?-6:0)+'px');dp.style.setProperty('--dy',(tin.d?6:tin.u?-6:0)+'px');dirCls()};
+  const dirCls=()=>{dp.classList.toggle('pl',tin.l);dp.classList.toggle('pr',tin.r);dp.classList.toggle('pu',tin.u);dp.classList.toggle('pd',tin.d)};
   dp.addEventListener('pointerdown',e=>{touchMode=true;id=e.pointerId;try{dp.setPointerCapture(id)}catch(_){}set(e);buzz();e.preventDefault()});
   dp.addEventListener('pointermove',e=>{if(e.pointerId===id)set(e)});
-  const up=e=>{if(e.pointerId!==id)return;id=null;tin.l=tin.r=tin.u=tin.d=false;dp.style.setProperty('--dx','0px');dp.style.setProperty('--dy','0px')};
+  const up=e=>{if(e.pointerId!==id)return;id=null;tin.l=tin.r=tin.u=tin.d=false;dp.style.setProperty('--dx','0px');dp.style.setProperty('--dy','0px');dirCls()};
   dp.addEventListener('pointerup',up);dp.addEventListener('pointercancel',up);
   [['bA','jump'],['bB','dash']].forEach(([b,k])=>{const el=$(b);el.addEventListener('pointerdown',e=>{touchMode=true;try{el.setPointerCapture(e.pointerId)}catch(_){}tin[k]=true;el.classList.add('on');buzz();e.preventDefault()});const o=()=>{tin[k]=false;el.classList.remove('on')};el.addEventListener('pointerup',o);el.addEventListener('pointercancel',o);el.addEventListener('pointerleave',o)});
 })();
