@@ -28,6 +28,11 @@ body{background:var(--ink);color:var(--paper);font-family:var(--f-body);font-wei
 #game-stage{position:relative;flex:0 0 75%;height:75%;min-height:0;overflow:hidden}
 #screen-wrap{position:absolute;inset:0;overflow:hidden}
 #c{position:absolute;inset:0;width:100%;height:100%;display:block;filter:saturate(.62) contrast(1.12)}
+@media (pointer:coarse){
+  /* 携帯は彩度を落としすぎて暗く見える。恐怖トーンは保ちつつ約+10%視認性 */
+  #c{filter:saturate(.66) contrast(1.1) brightness(1.1)}
+  #grain{animation:none;opacity:.06}
+}
 button{font:inherit;color:inherit;cursor:pointer;transition:transform .08s ease,opacity .08s ease}
 .btn:active,.btn.is-pressed,#quit:active{transform:scale(.92);opacity:.88}
 button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
@@ -64,6 +69,10 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
 #title.open .omen{animation:tIn 2.4s 3.6s both}
 #title.open #bStart{animation:tIn 1.6s 5s both,beat 1.6s 6.6s infinite}
 #title.open .eye{animation:eye 13s var(--d) infinite}
+#title.open::before{background:radial-gradient(ellipse at 50% 48%,rgba(10,2,3,.12),rgba(4,1,2,.82) 72%)}
+#title.cine::before{background:radial-gradient(ellipse at 50% 42%,rgba(4,0,2,.2),rgba(1,0,1,.97) 68%)}
+#title.cine .box{opacity:0;pointer-events:none;transition:opacity 1.5s ease}
+#title.cine-out .box{opacity:1;pointer-events:auto}
 @keyframes breath{0%,100%{opacity:.22}50%{opacity:.95}}
 @keyframes tIn{from{opacity:0;transform:translateY(8px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
 @keyframes tH{0%{opacity:0;transform:scale(1.28);filter:blur(14px)}60%{opacity:1}100%{opacity:1;transform:none;filter:blur(0)}}
@@ -138,19 +147,19 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){#grain,#gate b,#title.open *{animation:none!important}#title::after{transition:none}}
 #dread{position:absolute;inset:0;background:radial-gradient(circle,transparent 28%,rgba(150,8,12,.8));opacity:0}
 #doom{position:absolute;inset:0;pointer-events:none;display:grid;align-content:end;gap:14px;padding:16px 16px 11%;text-align:center;font-family:var(--f-horror);font-weight:800;background:radial-gradient(circle at 50% 38%,transparent 18%,rgba(18,0,0,.9))}
-#dSay{margin:0;font-size:clamp(22px,5.4vw,40px);color:var(--blood);text-shadow:0 0 18px rgba(212,22,28,.7),0 2px 0 #000;animation:shk .09s steps(2) infinite;min-height:1.5em}
-#dDoom{margin:0 auto;max-width:30em;font-size:clamp(15px,3.6vw,22px);line-height:1.9;color:var(--paper);text-shadow:0 2px 6px #000;min-height:5.7em}
+#dSay{margin:0;max-width:min(30em,94vw);font-size:clamp(22px,5.4vw,40px);line-height:1.55;color:var(--blood);text-shadow:0 0 18px rgba(212,22,28,.7),0 2px 0 #000;animation:shk .09s steps(2) infinite;min-height:1.5em;white-space:pre-line;word-break:keep-all;line-break:strict;text-wrap:balance}
+#dDoom{margin:0 auto;max-width:min(30em,94vw);font-size:clamp(15px,3.6vw,22px);line-height:1.85;color:var(--paper);text-shadow:0 2px 6px #000;min-height:5.7em;white-space:pre-line;word-break:keep-all;line-break:strict;text-wrap:balance}
 @keyframes shk{0%{transform:translate(1px,0)}100%{transform:translate(-1px,1px)}}
 @media (prefers-reduced-motion:reduce){#dSay{animation:none}}
 /* 全村制覇のエンディング：受取人が一人ずつ、怖いなりに配達人を讃える。背後の村と赤い目は見せたまま */
 #fin{position:absolute;inset:0;z-index:3;display:grid;grid-template-rows:minmax(0,1fr) auto;padding:16px 16px 12px;text-align:center;font-family:var(--f-horror);font-weight:800;cursor:pointer;
-  background:radial-gradient(circle at 50% 42%,rgba(18,0,0,.3) 8%,rgba(8,0,0,.93) 72%)}
+  background:radial-gradient(circle at 50% 38%,rgba(18,0,0,.12) 6%,rgba(8,0,0,.72) 58%,rgba(8,0,0,.9) 100%)}
 #fin .fbox{display:grid;align-content:center;justify-items:center;gap:clamp(10px,2.4vh,18px);min-height:0;overflow:hidden}
 #fHead{margin:0;font-size:12px;letter-spacing:.4em;text-indent:.4em;color:var(--paper-dim)}
 #fWho{margin:0;font-size:clamp(15px,4vw,20px);letter-spacing:.12em;color:var(--paper);text-shadow:0 2px 6px #000}
 #fWho small{display:block;font-size:11px;letter-spacing:.2em;color:var(--moss);margin-bottom:4px}
-#fSay{margin:0;max-width:21em;font-size:clamp(18px,4.8vw,30px);line-height:1.6;color:var(--blood);text-shadow:0 0 18px rgba(212,22,28,.7),0 2px 0 #000;min-height:3.2em}
-#fAside{margin:0;max-width:26em;font-size:clamp(13px,3.4vw,18px);line-height:1.8;color:var(--paper);text-shadow:0 2px 6px #000;min-height:3.6em}
+#fSay{margin:0;max-width:min(21em,92vw);font-size:clamp(18px,4.8vw,30px);line-height:1.65;color:var(--blood);text-shadow:0 0 18px rgba(212,22,28,.7),0 2px 0 #000;min-height:3.2em;white-space:pre-line;word-break:keep-all;line-break:strict;text-wrap:balance}
+#fAside{margin:0;max-width:min(26em,94vw);font-size:clamp(13px,3.4vw,18px);line-height:1.85;color:var(--paper);text-shadow:0 2px 6px #000;min-height:3.6em;white-space:pre-line;word-break:keep-all;line-break:strict;text-wrap:balance}
 #fin .frow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:var(--paper-dim);letter-spacing:.12em}
 #fSkip{background:transparent;border:1px solid var(--line);border-radius:3px;padding:8px 14px;min-height:40px;color:var(--paper);font-family:var(--f-horror);font-weight:800;font-size:13px;letter-spacing:.2em}
 .slip.dark{background:#160708;color:var(--paper);box-shadow:0 0 70px rgba(212,22,28,.45)}
@@ -173,7 +182,7 @@ button:focus-visible{outline:3px solid var(--kaki);outline-offset:2px}
 .mast span{font-size:calc(clamp(20px,5.4vw,28px)*var(--k,1));letter-spacing:.06em;line-height:1.2;white-space:nowrap}
 .mast small{font-size:12px;letter-spacing:.08em;font-family:var(--f-horror);white-space:nowrap}
 .paper h2{font-family:var(--f-news);font-weight:400;font-size:calc(clamp(26px,7.2vw,40px)*var(--k,1));line-height:1.25;letter-spacing:.04em;margin:0;padding:0 0 calc(8px*var(--k,1));border-bottom:3px solid var(--news-ink);color:var(--news-ink);white-space:pre-line}
-.paper .say{font-family:var(--f-horror);font-size:calc(clamp(15px,4vw,18px)*var(--k,1));line-height:1.55;margin:0;padding:2px 0 2px 10px;border-left:3px solid var(--news-ink)}
+.paper .say{font-family:var(--f-horror);font-size:calc(clamp(15px,4vw,18px)*var(--k,1));line-height:1.55;margin:0;padding:2px 0 2px 10px;border-left:3px solid var(--news-ink);white-space:pre-line;word-break:keep-all;line-break:strict;text-wrap:balance}
 .art{display:flex;flex-direction:column;gap:calc(8px*var(--k,1))}
 .art p{margin:0;font-size:calc(14.5px*var(--k,1));line-height:1.65;text-align:start;font-weight:800;overflow-wrap:anywhere}
 .art .note{border:1px solid var(--news-ink);padding:8px 10px}
@@ -346,10 +355,10 @@ function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a
 /* ---------- 10の廃村 ---------- */
 const EXTRA={normal:0,jizo:2.5,wander:1.5,gentle:2.5,high:2.5,flee:4.5,fetch:6,ghost:3};
 const STAGES=[
- {name:'苔峰',pref:'嶺北県 奥霧',A:4,k:14,sky:0xe8b587,fog:0xdca982,far:520,g1:0x5d7a3a,g2:0x7f8f47,road:0xa58a5e,leaf:[0x3f6b34,0x567f3a],sun:0xfff0c0,amb:1,
+ {name:'苔峰',pref:'嶺北県 奥霧',A:4,k:14,sky:0xe8b587,fog:0xdca982,far:520,g1:0x5d7a3a,g2:0x7f8f47,road:0xa58a5e,leaf:[0x3f6b34,0x567f3a],sun:0xfff0c0,amb:1,bright:1.2,
   pts:[[-40,-250],[60,200]],
   cust:[{t:'normal',n:'なぜか住んでる人 トメさん',q:'くせなし。ふつうに体当たりで届ければ受け取る。まずは肩ならし。',ok:'あら早い。お茶でも飲んでいきな',ng:'さっき車の人から受け取ったよ。帰っとくれ'}]},
- {name:'針葉沢',pref:'嶺北県 奥霧',A:6,k:14.5,sky:0xb7c4b0,fog:0xa9b8a6,far:380,g1:0x4c6a3c,g2:0x6c7f52,road:0x8f8468,leaf:[0x2f5a36,0x47704a],sun:0xf3f3df,amb:.95,
+ {name:'針葉沢',pref:'嶺北県 奥霧',A:6,k:14.5,sky:0xb7c4b0,fog:0xa9b8a6,far:380,g1:0x4c6a3c,g2:0x6c7f52,road:0x8f8468,leaf:[0x2f5a36,0x47704a],sun:0xf3f3df,amb:.95,bright:1.2,
   pts:[[-230,-220],[200,180]],
   cust:[{t:'jizo',decoys:3,n:'呪いの地蔵',q:'一列に並んだ地蔵は、全員こちらを向く。本物は<b>赤い前掛け</b>の一体だけ。青に触れると呪われて4秒のろくなる。',ok:'……よきにはからえ（呪いは勘弁してやろう）',ng:'……先客あり。おぬしには末代まで渋滞の呪いを'}]},
  {name:'白段',pref:'武野県 石灰郷',A:7,k:13.5,sky:0xf0c9a0,fog:0xe2b990,far:480,g1:0x7a6a35,g2:0x8f7d3f,road:0xa99570,leaf:[0xb8452a,0xd98a2b],sun:0xffe2a8,amb:1,
@@ -389,9 +398,10 @@ const SCENE=['杉の植林に沈んだ集落跡。苔むした石垣と小さな
 const ITEM={'なぜか住んでる人 トメさん':'入れ歯洗浄剤（三年分）','呪いの地蔵':'赤い前掛け（替え）','巨大たぬき':'どんぐり 十キロ','昼寝中の木こり 源じい':'耳栓（業務用）','岩の上の宿場じいさん':'はしご（本人に使う気なし）','人見知りの山姥':'砥石','ダム湖の河童':'皿用保湿クリーム','鉱山アパートの幽霊':'線香 徳用箱','呪いの地蔵（六体）':'笠 五つ（ひとつ足りない）','管理人を名乗る男':'南京錠','トンネル前の幽霊':'懐中電灯（電池なし）','山姥の姉':'妹あての手紙','巨大たぬき親分':'八畳敷きの座布団'};
 /* ---------- renderer ---------- */
 const cv=$('c');
-const renderer=new T.WebGLRenderer({canvas:cv,antialias:true});
+const renderer=new T.WebGLRenderer({canvas:cv,antialias:!matchMedia('(pointer:coarse)').matches});
 const LOW=matchMedia('(pointer:coarse)').matches;
-renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,LOW?1.5:2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,LOW?1.25:2));
+renderer.shadowMap.enabled=!LOW;renderer.shadowMap.type=T.PCFSoftShadowMap;
 /* 実測 fps が足りない端末だけ、影 → 解像度 → 描画間引き の順に落とす。
    最後の段は「描画だけ」を間引き、入力とゲームロジックは毎フレーム回す。
    GPU の無い環境（SwiftShader など）では描画が 1 枚 70ms 近くかかるので、
@@ -532,9 +542,16 @@ const truck=(()=>{
   g.add(cargo);
   const wg=new T.CylinderGeometry(.55,.55,.4,12),wm=L(0x111111);
   [[-1.3,1.6],[1.3,1.6],[-1.3,-1.6],[1.3,-1.6]].forEach(p=>{const w=mk(wg,wm,p[0],.55,p[1]);w.rotation.z=Math.PI/2;g.add(w)});
-  g.add(mk(new T.SphereGeometry(.18,8,6),new T.MeshBasicMaterial({color:0xfff2a0}),-.9,1.2,2.6));
-  g.add(mk(new T.SphereGeometry(.18,8,6),new T.MeshBasicMaterial({color:0xfff2a0}),.9,1.2,2.6));
-  g.scale.setScalar(1.15); scene.add(g); return g;
+  const lampM=new T.MeshBasicMaterial({color:0xfff2a0,fog:false});
+  const lamps=[mk(new T.SphereGeometry(.22,8,6),lampM,-.9,1.2,2.6),mk(new T.SphereGeometry(.22,8,6),lampM,.9,1.2,2.6)];
+  lamps.forEach(m=>g.add(m));
+  const polo=L(0xf0ebe2),skin=L(0xb09d88),cap=L(0x141210);
+  const fakeDrv=new T.Group();
+  fakeDrv.add(mk(new T.BoxGeometry(.7,.45,.55),polo,0,.35,.15));
+  fakeDrv.add(mk(new T.SphereGeometry(.26,12,10),skin,0,.78,.22));
+  const cp=mk(new T.SphereGeometry(.28,10,8),cap,0,.95,.12);cp.scale.set(1,.48,1);fakeDrv.add(cp);
+  fakeDrv.position.set(0,1.52,1.28);fakeDrv.scale.setScalar(.88);g.add(fakeDrv);
+  g.scale.setScalar(1.15);g.userData={lamps,fakeDrv};scene.add(g);return g;
 })();
 
 const shade=(()=>{const g=new T.Group(),m=new T.MeshBasicMaterial({color:0x050505}),w=new T.MeshBasicMaterial({color:0xffffff,fog:false});
@@ -581,7 +598,75 @@ const HOLD={normal:[2.3,.85,1],flee:[2.3,.85,1],wander:[3.6,4.7,1.8],gentle:[1.6
 function handOver(c){const g=mkPkg();world.add(g);const from=new T.Vector3();runner.updateMatrixWorld(true);pkg.getWorldPosition(from);g.position.copy(from);fly={g,c,t:0,from};pkg.visible=false}
 /* ---------- world state ---------- */
 let S=STAGES[0],si=0,world=null,ph=[0,0,0,0,0],anchors=[],road=[],stopS=[],obs=[],custs=[],cur=0,pillar=null,legFrom=[0,0],legLen=1;
-let state='title',time=0,anim=0,countT=0,endT=0;
+let state='title',time=0,anim=0,countT=0,endT=0,titleShot=0,titleTrk=0,titleTrS=32;
+let titlePhase='intro',titleCineT=0,titleCineI=0,titleSav=null,titleDollSnap=null,titleHide=[],titleHorn=false;
+const TITLE_CUTS=[{dur:4.5},{dur:4},{dur:4.4}];
+function titleGoalS(){return cl(TR.total*.11,28,Math.max(32,TR.total*.18))}
+function truckHd(){const p=roadAt(TR.s),n=roadAt(Math.min(TR.total,TR.s+4));return Math.atan2(n[0]-p[0],n[1]-p[1])}
+function endTitleChase(){
+  if(titleSav){hemi.intensity=titleSav.hemi;sunL.intensity=titleSav.sun;scene.fog.near=titleSav.fn;scene.fog.far=titleSav.ff;scene.background.set(titleSav.bg);scene.fog.color.set(titleSav.fc);titleSav=null}
+  shade.visible=false;stalker.visible=false;
+  if(titleDollSnap){titleDollSnap.forEach(s=>{s.o.x=s.x;s.o.z=s.z});titleDollSnap=null}
+  titleHide.forEach(x=>{x.c.g.visible=x.v});titleHide=[];
+  $('title').classList.remove('cine');$('title').classList.add('cine-out');titleHorn=false}
+function layoutTitleHorror(){
+  const hd=truckHd(),sin=Math.sin(hd),cos=Math.cos(hd);
+  titleDollSnap=dolls.slice(0,4).map(o=>({o,x:o.x,z:o.z}));
+  [6,14,24,34].forEach((ds,i)=>{if(i>=dolls.length)return;const p=roadAt(Math.min(TR.total-2,TR.s+ds)),side=(i%2?1:-1)*(3.6+i*.35);
+    dolls[i].x=p[0]+cos*side;dolls[i].z=p[1]-sin*side;dolls[i].g.visible=true});
+  const p2=roadAt(Math.min(TR.total-2,TR.s+20));shade.position.set(p2[0]+sin*8,H(p2[0],p2[1]),p2[1]+cos*8);shade.visible=true;shLife=99;
+  stk.x=TR.x+sin*11;stk.z=TR.z+cos*11;
+  hito.slice(0,3).forEach((h,i)=>{const p=roadAt(Math.min(TR.total-2,TR.s+8+i*11));h.x=p[0]-cos*(4+i*1.2);h.z=p[1]+sin*(4+i*1.2)})}
+function onTitleCut(i){
+  if(i===1){stalker.visible=true;sfx.whisper()}
+  if(i===2){sfx.sting();const f=$('flash');f.style.opacity=.26;setTimeout(()=>f.style.opacity=0,130)}}
+function startTitleChase(){
+  if(titlePhase!=='intro'||!road.length)return;
+  titlePhase='chase';titleCineT=0;titleCineI=0;
+  titleSav={hemi:hemi.intensity,sun:sunL.intensity,bg:scene.background.getHex(),fn:scene.fog.near,ff:scene.fog.far,fc:scene.fog.color.getHex()};
+  hemi.intensity=.055;sunL.intensity=.012;scene.fog.near=1.2;scene.fog.far=36;scene.background.set(0x010102);scene.fog.color.set(0x06040a);
+  $('title').classList.remove('cine-out');$('title').classList.add('cine');
+  titleHide=custs.map(c=>{const v=c.g.visible;c.g.visible=false;return{c,v}});
+  layoutTitleHorror();sfx.amb()}
+function titleChaseCam(){
+  const hd=truckHd(),sin=Math.sin(hd),cos=Math.cos(hd),tx=TR.x,ty=TR.y,tz=TR.z,i=titleCineI;
+  if(i===0){
+    v3.set(tx-sin*12.5,ty+6.8,tz-cos*12.5);cam.position.lerp(v3,.32);cam.lookAt(tx+sin*11,ty+2.5,tz+cos*11);
+    if(cam.fov<55){cam.fov=55;cam.updateProjectionMatrix()}}
+  else if(i===1){
+    if(!titleHorn&&titleCineT>.35){titleHorn=true;sfx.horn()}
+    if(dolls[0]){const p=roadAt(Math.min(TR.total-2,TR.s+3));dolls[0].x=p[0]+cos*7.5;dolls[0].z=p[1]-sin*7.5}
+    v3.set(tx-cos*4.8,ty+2.15,tz+sin*4.8);cam.position.lerp(v3,.4);cam.lookAt(tx+sin*1.2,ty+1.55,tz+cos*1.2);
+    cam.fov+=(47-cam.fov)*.18;cam.updateProjectionMatrix()}
+  else{stalker.visible=true;
+    v3.set(tx+sin*15,ty+2.6,tz+cos*15);cam.position.lerp(v3,.36);cam.lookAt(tx,ty+2, tz);
+    cam.fov+=(41-cam.fov)*.16;cam.updateProjectionMatrix()}
+  for(let j=0;j<Math.min(4,dolls.length);j++)dolls[j].face=Math.atan2(cam.position.x-dolls[j].x,cam.position.z-dolls[j].z);
+  lamp.position.copy(cam.position);lamp.intensity=2.75+Math.sin(anim*6)*.25;lamp.target.position.set(tx,ty+2.2,tz)}
+function resetTitleIntro(){
+  if(titlePhase==='chase')endTitleChase();
+  titlePhase='intro';
+  if(!road.length)return;
+  titleTrS=titleGoalS();
+  const p=roadAt(Math.max(6,titleTrS-14)),q=roadAt(Math.min(TR.total-2,titleTrS+6));
+  pl.x=p[0];pl.z=p[1];pl.heading=Math.atan2(q[0]-p[0],q[1]-p[1]);
+  titleShot=0;titleTrk=0;TR.s=Math.max(8,titleTrS-52);placeTruck();
+  if(cam.fov!==50){cam.fov=50;cam.updateProjectionMatrix()}}
+function titleRival(dt){
+  if(state!=='title'&&state!=='select')return;
+  runner.visible=false;pkg.visible=false;truck.visible=true;
+  titleTrS=titleGoalS();
+  if(titlePhase==='intro'){
+    if($('title').classList.contains('open')){titleShot+=dt;titleTrk+=dt}
+    const t0=Math.max(8,titleTrS-50),u=Math.min(1,titleTrk/5.8),ease=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+    TR.s=t0+(titleTrS-t0)*ease;placeTruck();
+    if($('title').classList.contains('open')&&titleTrk>=1&&titleShot>7.4)startTitleChase()}
+  else if(titlePhase==='chase'){
+    titleShot+=dt;titleCineT+=dt;TR.s=Math.min(TR.total-8,TR.s+dt*8.4);placeTruck();
+    while(titleCineI<TITLE_CUTS.length&&titleCineT>=TITLE_CUTS[titleCineI].dur){titleCineT-=TITLE_CUTS[titleCineI].dur;titleCineI++;onTitleCut(titleCineI);if(titleCineI>=TITLE_CUTS.length){endTitleChase();titlePhase='hold';break}}}
+  else if($('title').classList.contains('open'))titleShot+=dt;
+  if(truck.userData.lamps)truck.userData.lamps.forEach((m,i)=>{const p=.82+.18*Math.sin(anim*6+i*1.7);m.material.opacity=p;m.scale.setScalar(.9+p*.22)});
+  if(truck.userData.fakeDrv)truck.userData.fakeDrv.rotation.y=Math.sin(anim*.7)*.08}
 const ROOMW=[[-9,8,-3.2,9],[3.2,8,9,9],[-9,-9,-3.2,-8],[3.2,-9,9,-8],[-9,-9,-8,-3.2],[-9,3.2,-8,9],[8,-9,9,-3.2],[8,3.2,9,9]];
 let sway=[],mist=[],rooms=[],faces=[],fly=null,winRed=0,shT=9,shLife=0,whT=5,stT=8,dolls=[],muds=[],hito=[],dollCd=6,failC=null,failP=null,failDir=[0,1],failTxt=['',''],resT=0;
 
@@ -793,8 +878,10 @@ function loadStage(i){
   if(world){scene.remove(world);world.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{if(m.map&&!(m.map.userData&&m.map.userData.keep))m.map.dispose();m.dispose()})})}
   world=new T.Group();scene.add(world);
   ph=[0,1,2,3,4].map(()=>rnd()*6.28);
-  const dk=new T.Color(0x10151a),dkf=Math.min(.62,.44+si*.015);scene.background=new T.Color(S.sky).lerp(dk,dkf);scene.fog=new T.Fog(new T.Color(S.fog).lerp(dk,dkf),S.far*.04,S.far*.56);
-  const dim=S.night||S.far<250;hemi.color.set(S.night?0x8f9cff:0xdfe6ee);hemi.groundColor.set(S.g1);hemi.intensity=S.amb*(S.night?.3:.42);sunL.intensity=S.night?.28:dim?.25:.5;sunL.color.set(S.night?0xaab4ff:0xfff2e0);lamp.intensity=S.night?2.3:dim?1.9:1.2;sway=[];mist=[];
+  const br=S.bright||1,dk=new T.Color(0x10151a),dkf=Math.min(.62,.44+si*.015)*(LOW?.9:1)/br;scene.background=new T.Color(S.sky).lerp(dk,dkf);scene.fog=new T.Fog(new T.Color(S.fog).lerp(dk,dkf),S.far*.04,S.far*.56);
+  const dim=S.night||S.far<250;hemi.color.set(S.night?0x8f9cff:0xdfe6ee);hemi.groundColor.set(S.g1);hemi.intensity=S.amb*(S.night?.3:.42)*br;sunL.intensity=(S.night?.28:dim?.25:.5)*br;sunL.color.set(S.night?0xaab4ff:0xfff2e0);lamp.intensity=(S.night?2.3:dim?1.9:1.2)*br;
+  if(LOW){hemi.intensity*=1.1;sunL.intensity*=1.08;lamp.intensity*=1.05}
+  sway=[];mist=[];
   const pts=S.pts;anchors=[];
   anchors=pts.map((p,j)=>({x:p[0],z:p[1],r:j?46:30,h:Math.max(rawH(p[0],p[1]),SCN.water!=null?SCN.water+1.4:-1e9)}));
   // 道（軽トラ用のつづら折り）
@@ -811,16 +898,16 @@ function loadStage(i){
   TR.par=direct/S.k+extra;TR.v=TR.total/TR.par;TR.s=10;TR.eta=TR.par;
 
   // 地形
-  const geo=new T.PlaneGeometry(W,W,150,150);geo.rotateX(-Math.PI/2);
-  const pa=geo.attributes.position,col=new Float32Array(pa.count*3),c1=new T.Color(S.g1).lerp(dk,.36),c2=new T.Color(S.g2).lerp(dk,.36),cr=new T.Color(S.road).lerp(dk,.3),tc=new T.Color();
+  const geo=new T.PlaneGeometry(W,W,LOW?96:150,LOW?96:150);geo.rotateX(-Math.PI/2);
+  const gDim=.36/br,rDim=.3/br,pa=geo.attributes.position,col=new Float32Array(pa.count*3),c1=new T.Color(S.g1).lerp(dk,gDim),c2=new T.Color(S.g2).lerp(dk,gDim),cr=new T.Color(S.road).lerp(dk,rDim),tc=new T.Color();
   for(let v=0;v<pa.count;v++){const x=pa.getX(v),z=pa.getZ(v);pa.setY(v,H(x,z));
     const n=.5+.5*Math.sin(x*.05+ph[2])*Math.cos(z*.045+ph[3]);tc.copy(c1).lerp(c2,n);
     const rd=roadDist(x,z);if(rd<8)tc.lerp(cr,1-sm(rd,3.5,8));
     col[v*3]=tc.r;col[v*3+1]=tc.g;col[v*3+2]=tc.b}
   geo.setAttribute('color',new T.BufferAttribute(col,3));geo.computeVertexNormals();
   const gnd=new T.Mesh(geo,new T.MeshLambertMaterial({vertexColors:true,map:TX.ground}));gnd.userData.ground=1;world.add(gnd);
-  world.add(mk(new T.SphereGeometry(1150,24,16),new T.MeshBasicMaterial({map:skyTex(),side:T.BackSide,fog:false,depthWrite:false})));
-  for(let i=0;i<(LOW?24:46);i++){const sp=new T.Sprite(new T.SpriteMaterial({map:TX.mist,color:scene.fog.color,transparent:true,opacity:.16+rnd()*.12,depthWrite:false}));sp.scale.set(60+rnd()*50,16+rnd()*12,1);const x=(rnd()-.5)*(W-80),z=(rnd()-.5)*(W-80);world.add(sp);mist.push({sp,x,z,ph:rnd()*6})}
+  world.add(mk(new T.SphereGeometry(1150,LOW?16:24,LOW?12:16),new T.MeshBasicMaterial({map:skyTex(),side:T.BackSide,fog:false,depthWrite:false})));
+  for(let i=0;i<(LOW?16:46);i++){const sp=new T.Sprite(new T.SpriteMaterial({map:TX.mist,color:scene.fog.color,transparent:true,opacity:.16+rnd()*.12,depthWrite:false}));sp.scale.set(60+rnd()*50,16+rnd()*12,1);const x=(rnd()-.5)*(W-80),z=(rnd()-.5)*(W-80);world.add(sp);mist.push({sp,x,z,ph:rnd()*6})}
 
   if(SCN.water!=null){const w=mk(new T.PlaneGeometry(W,W),new T.MeshLambertMaterial({color:0x2c5a74,transparent:true,opacity:.84}),0,SCN.water,0);w.rotation.x=-Math.PI/2;world.add(w)}
   // 障害物
@@ -838,7 +925,7 @@ function loadStage(i){
   tp.forEach((p,q)=>{const y=H(p[0],p[1]);d.position.set(p[0],y+4.2*p[2]*hm,p[1]);d.scale.set(p[2]*wm,p[2]*hm,p[2]*wm);d.rotation.set((p[3]-.5)*.12,p[3]*6,(p[3]*7%1-.5)*.12);d.updateMatrix();trunk.setMatrixAt(q,d.matrix);
     [4.2,6.3,8.2].forEach((yy,k)=>{d.position.y=y+yy*p[2]*hm;if(p[3]<.3)d.scale.setScalar(.001);d.updateMatrix();lf[k].setMatrixAt(q,d.matrix);lf[k].setColorAt(q,tc.copy(la).lerp(lb,p[3]).multiplyScalar(1.05-k*.1))});obs.push({x:p[0],z:p[1],r:Math.max(.5,.75*p[2]*wm),top:1e9})});
   if(tp.length)world.add(trunk,...lf);
-  {const n=S.snow?900:SCN.tr[0]?(LOW?2400:5600):700,gg=new T.BufferGeometry(),v=[],u=[],ix=[];[[1,0],[0,1]].forEach((ax,k)=>{const o=k*4;v.push(-ax[0]*.9,0,-ax[1]*.9, ax[0]*.9,0,ax[1]*.9, ax[0]*.9,1.5,ax[1]*.9, -ax[0]*.9,1.5,-ax[1]*.9);u.push(0,0,1,0,1,1,0,1);ix.push(o,o+1,o+2,o,o+2,o+3)});
+  {const n=S.snow?900:SCN.tr[0]?(LOW?1500:5600):700,gg=new T.BufferGeometry(),v=[],u=[],ix=[];[[1,0],[0,1]].forEach((ax,k)=>{const o=k*4;v.push(-ax[0]*.9,0,-ax[1]*.9, ax[0]*.9,0,ax[1]*.9, ax[0]*.9,1.5,ax[1]*.9, -ax[0]*.9,1.5,-ax[1]*.9);u.push(0,0,1,0,1,1,0,1);ix.push(o,o+1,o+2,o,o+2,o+3)});
     gg.setAttribute('position',new T.Float32BufferAttribute(v,3));gg.setAttribute('uv',new T.Float32BufferAttribute(u,2));gg.setAttribute('normal',new T.Float32BufferAttribute(new Array(24).fill(0).map((_,i)=>i%3===1?1:0),3));gg.setIndex(ix);
     const gm=new T.InstancedMesh(gg,new T.MeshLambertMaterial({map:TX.grass,alphaTest:.4,side:T.DoubleSide,color:S.snow?0xb8ae92:SCN.tr[0]?new T.Color(S.g2).lerp(dk,.3).getHex():0x9a905a}),n);gm.userData.noSh=1;let k=0;
     for(let t=0;k<n&&t<n*3;t++){const x=(rnd()-.5)*(W-30),z=(rnd()-.5)*(W-30);if(roadDist(x,z)<4||(SCN.water!=null&&H(x,z)<SCN.water+.3))continue;d.position.set(x,H(x,z)-.05,z);d.rotation.set(0,rnd()*3,0);d.scale.set(.8+rnd()*.9,.6+rnd()*1.1,.8+rnd()*.9);d.updateMatrix();gm.setMatrixAt(k++,d.matrix)}gm.count=k;world.add(gm)}
@@ -894,7 +981,7 @@ function loadStage(i){
   cur=0;time=0;legFrom=[pts[0][0],pts[0][1]];legLen=Math.hypot(pts[1][0]-pts[0][0],pts[1][1]-pts[0][1]);
   Object.assign(pl,{x:pts[0][0],z:pts[0][1],vx:0,vy:0,vz:0,gauge:1,rev:0,lock:0,curse:0,jcd:0,hit:0,hand:0,stun:0,shake:0,up:1,upT:1,heading:Math.atan2(pts[1][0]-pts[0][0],pts[1][1]-pts[0][1])});
   pl.y=H(pl.x,pl.z)+R;pkg.visible=true;roll.rotation.x=0;runner.visible=truck.visible=true;failC=null;fly=null;winRed=0;stalker.visible=false;stk={on:false,t:si===0?1e9:(Math.random()<(si>=5?1:.7)?6+Math.random()*9:1e9),x:0,z:0,cd:0,d:99};shade.visible=false;shT=9;clearTimeout(resT);$('doom').hidden=true;
-  world.traverse(o=>{if(!o.isMesh||o.userData.noSh)return;const m=Array.isArray(o.material)?o.material[0]:o.material;if(m.transparent||m.isMeshBasicMaterial||m.isSpriteMaterial)return;o.receiveShadow=true;o.castShadow=!o.userData.ground&&!o.userData.noCast});
+  if(!LOW)world.traverse(o=>{if(!o.isMesh||o.userData.noSh)return;const m=Array.isArray(o.material)?o.material[0]:o.material;if(m.transparent||m.isMeshBasicMaterial||m.isSpriteMaterial)return;o.receiveShadow=true;o.castShadow=!o.userData.ground&&!o.userData.noCast});
   camH=pl.heading;placeTruck();syncMeshes(0);
 }
 
@@ -1120,9 +1207,22 @@ function syncMeshes(dt){
   for(const o of dolls){o.g.position.set(o.x,H(o.x,o.z),o.z);o.g.rotation.y=failC?Math.atan2(cam.position.x-o.x,cam.position.z-o.z):o.face}
   for(const o of muds){o.g.position.set(o.x,H(o.x,o.z),o.z);o.g.rotation.y=failC?Math.atan2(cam.position.x-o.x,cam.position.z-o.z):o.face;o.g.rotation.z=o.hit>0?Math.sin(anim*26)*.16:0}
   for(const h of hito){h.m.position.set(h.x+Math.sin(anim*.7+h.ph)*2,H(h.x,h.z)+2.6+Math.sin(anim*1.6+h.ph)*.7,h.z+Math.cos(anim*.5+h.ph)*2);h.m.material.opacity=.4+.45*Math.abs(Math.sin(anim*3+h.ph))}
-  if(pillar){const c=custs[Math.min(cur,custs.length-1)];pillar.position.set(c.x,H(c.x,c.z)+70,c.z);pillar.visible=cur<custs.length&&!failC&&state!=='brief';pillar.material.opacity=.2+Math.sin(anim*4)*.07}
+  if(pillar){const c=custs[Math.min(cur,custs.length-1)];pillar.position.set(c.x,H(c.x,c.z)+70,c.z);pillar.visible=cur<custs.length&&!failC&&state!=='brief'&&!fin;pillar.material.opacity=.2+Math.sin(anim*4)*.07}
+  if(finWatch){
+    const pull=fin&&fin.i===FIN.length-1?Math.min(1.8,fin.t*.35):0,cx=finWatch.cx,cz=finWatch.cz;
+    for(const o of finWatch.cols){
+      const g=o.g,rr=o.rr-pull*1.1,x=cx+Math.sin(o.a)*rr,z=cz+Math.cos(o.a)*rr,y=H(x,z)+Math.sin(anim*1.35+o.ph)*.05;
+      g.position.set(x,y,z);const want=Math.atan2(cx-x,cz-z);g.rotation.y+=(want-g.rotation.y)*Math.min(1,dt*2.5);
+      const u=g.userData;if(u&&u.hd){u.hd.rotation.x=Math.sin(anim*.85+o.ph)*.09-.04;u.hd.rotation.z=Math.sin(anim*1.05+o.ph)*.07}
+      g.scale.setScalar((o.i%3===0?.9:o.i%3===1?.94:.92)*(1+pull*.04))}
+    runner.position.set(cx,H(cx,cz)+.32,cz);runner.rotation.y=finWatch.hd+Math.PI}
 }
 function camera(dt){
+  if(fin&&finWatch){
+    const cx=finWatch.cx,cz=finWatch.cz,sw=anim*.11,r=finWatch.R+(fin.i===FIN.length-1?Math.min(2.5,fin.t*.5):0),a=finWatch.hd+Math.PI+sw*.12;
+    cam.position.set(cx+Math.sin(a)*r,H(cx,cz)+5.8,cz+Math.cos(a)*r);cam.lookAt(cx,H(cx,cz)+3.4,cz+Math.sin(finWatch.hd)*7);
+    lamp.position.copy(cam.position);lamp.intensity=1.7+Math.sin(anim*2.1)*.15;lamp.target.position.set(cx,H(cx,cz)+3,cz);
+    if(cam.fov>50){cam.fov=50;cam.updateProjectionMatrix()}return}
   if(failC){const k=Math.min(endT,7),r=(10.5-k*.85)*failP.r,gh=H(failP.x,failP.z),sc=failC.t==='jizo'?1:1+k*.05;
     cam.position.set(failP.x+failDir[0]*r,gh+failP.h*sc+.4+r*.05,failP.z+failDir[1]*r);cam.lookAt(failP.x,gh+failP.h*sc-.3,failP.z);lamp.position.copy(cam.position);lamp.position.y-=1.2;lamp.target.position.set(failP.x,gh+failP.h*sc,failP.z);lamp.intensity=2.2+Math.sin(anim*23)*.5*(Math.sin(anim*3.1)>.2?1:0);cam.rotation.z+=Math.sin(anim*37)*.0026*k;
     if(cam.fov!==50){cam.fov=50;cam.updateProjectionMatrix()}return}
@@ -1132,9 +1232,15 @@ function camera(dt){
     v3.set(cx,cy,cz);cam.position.lerp(v3,Math.min(1,dt*9));if(pl.shake>0){cam.position.x+=(Math.random()-.5)*pl.shake*2.6;cam.position.y+=(Math.random()-.5)*pl.shake*2.6}cam.lookAt(pl.x+fx*(ins?1.5:5),pl.y+1.4,pl.z+fz*(ins?1.5:5));
     const f=62+cl((pl.sp||0)-18,0,20)*.8;if(Math.abs(cam.fov-f)>.2){cam.fov+=(f-cam.fov)*Math.min(1,dt*4);cam.updateProjectionMatrix()}
   }else{
-    const c=state==='end'&&endWin===false?{x:TR.x,z:TR.z}:state==='title'||state==='select'?{x:pl.x,z:pl.z}:custs[Math.min(cur,custs.length-1)];
-    const br=state==='brief',r=br?(c.t==='wander'?24:c.t==='jizo'?17:c.in?5.5:6.2):20,a=br?Math.atan2(pl.x-c.x,pl.z-c.z)+Math.sin(anim*.35)*.5:anim*(state==='title'?.07:.25);const cx=c.x+Math.sin(a)*r,cz=c.z+Math.cos(a)*r;
-    cam.position.set(cx,Math.max(H(c.x,c.z)+(br?(c.t==='high'?6.4:3.7):9),H(cx,cz)+2.5),cz);cam.lookAt(c.x,H(c.x,c.z)+(br?(c.t==='wander'?7:c.t==='high'?6:c.t==='gentle'?1.2:3.3):3),c.z);if(br){lamp.position.copy(cam.position);lamp.target.position.set(c.x,H(c.x,c.z)+3,c.z)}
+    const titleM=state==='title'||state==='select';
+    if(titleM&&titlePhase==='chase'){titleChaseCam();return}
+    const c=state==='end'&&endWin===false?{x:TR.x,z:TR.z}:titleM?{x:(pl.x+TR.x)*.35,z:(pl.z+TR.z)*.35}:custs[Math.min(cur,custs.length-1)];
+    const br=state==='brief',baseA=titleM?Math.atan2(pl.x-TR.x,pl.z-TR.z)+.38:0;
+    const r=br?(c.t==='wander'?24:c.t==='jizo'?17:c.in?5.5:6.2):titleM?Math.max(20.5,42-titleShot*.52):20,a=br?Math.atan2(pl.x-c.x,pl.z-c.z)+Math.sin(anim*.35)*.5:titleM?baseA+titleShot*.028:anim*(state==='title'?.07:.25);
+    const cx=c.x+Math.sin(a)*r,cz=c.z+Math.cos(a)*r,ly=titleM?H(TR.x,TR.z)+2.8:H(c.x,c.z);
+    cam.position.set(cx,Math.max(H(c.x,c.z)+(br?(c.t==='high'?6.4:3.7):titleM?7:9),H(cx,cz)+2.5),cz);
+    cam.lookAt(titleM?TR.x:c.x,ly+(titleM?0:br?(c.t==='wander'?7:c.t==='high'?6:c.t==='gentle'?1.2:3.3):3),titleM?TR.z:c.z);
+    if(br||titleM){const lx=titleM?TR.x:c.x,lz=titleM?TR.z:c.z;lamp.position.copy(cam.position);lamp.target.position.set(lx,H(lx,lz)+3,lz);if(titleM)lamp.intensity=2.1+Math.sin(anim*3)*.25}
   }
 }
 function hud(){
@@ -1154,8 +1260,9 @@ function hud(){
 let save={un:1,best:[]};
 try{const s=JSON.parse(localStorage.getItem('korogari-kyubin')||'null');if(s&&s.best)save=s}catch(_){}
 const store=()=>{try{localStorage.setItem('korogari-kyubin',JSON.stringify(save))}catch(_){}};
-const show=id=>{fin=null;$('fin').hidden=true;['title','select','brief','result'].forEach(k=>$(k).hidden=k!==id);$('hud').hidden=!(state==='play'||state==='count');$('doom').hidden=true;requestAnimationFrame(fitOv)};
-function goSelect(){state='select';mDuck=1;music('title');const g=$('grid');g.innerHTML='';
+const show=id=>{fin=null;$('fin').hidden=true;['title','select','brief','result'].forEach(k=>$(k).hidden=k!==id);$('hud').hidden=!(state==='play'||state==='count');$('doom').hidden=true;
+  requestAnimationFrame(fitOv)};
+function goSelect(){if(titlePhase==='chase')endTitleChase();titlePhase='hold';state='select';mDuck=1;music('title');const g=$('grid');g.innerHTML='';
   STAGES.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='tile';b.disabled=i>=save.un;
     b.innerHTML='<span class="no">第'+(i+1)+'便</span><b>'+s.name+'</b><small>'+s.pref+'</small><span class="bt">'+(save.best[i]?'最速 '+save.best[i].toFixed(1)+'秒':i<save.un?'未配達':'前の村をクリアで解放')+'</span>';
     press(b,()=>goBrief(i));g.appendChild(b)});show('select')}
@@ -1164,7 +1271,7 @@ function goBrief(i){loadStage(i);state='brief';
   let h='<dt>お届け先</dt><dd><b>'+S.name+'</b>（'+S.pref+'）</dd><dt>現地</dt><dd>'+SCENE[i]+'</dd>';
   S.cust.forEach((c,j)=>{h+='<dt>受取人'+(S.cust.length>1?(j+1):'')+'</dt><dd><b>'+c.n+'</b><br>'+c.q+(c.in?'<br><b>屋内配達</b>：赤い鴨居の戸口から家の中へ転がり込んで届ける（裏と横にも抜け口あり）。':'')+'</dd><dt>依頼の品'+(S.cust.length>1?(j+1):'')+'</dt><dd><b>'+ITEM[c.n]+'</b></dd>'});
   $('bList').innerHTML=h;music('title');show('brief')}
-function startRun(){audioOn();mDuck=1;music(si>=7?'dark':'run');state='count';countT=3;endWin=null;show('');$('hName').textContent='第'+(si+1)+'便 '+S.name;$('big').hidden=false;hud();toast('営業所「'+custs[0].n.split(' ').pop()+'様あて、'+ITEM[custs[0].n]+'。至急」',3200)}
+function startRun(){audioOn();mDuck=1;music(si>=7?'dark':'run');state='count';countT=3;endWin=null;titleTrk=0;runner.visible=true;pkg.visible=true;show('');$('hName').textContent='第'+(si+1)+'便 '+S.name;$('big').hidden=false;hud();toast('営業所「'+custs[0].n.split(' ').pop()+'様あて、'+ITEM[custs[0].n]+'。至急」',3200)}
 let endWin=null;
 function bestAvg(){let s=0;for(let i=0;i<STAGES.length;i++){const v=save.best[i];if(!(v>0))return null;s+=v}return s/STAGES.length}
 function win(){stalker.visible=false;stk.on=false;state='end';endWin=true;endT=0;music('dawn');const t=time,old=save.best[si];if(!old||t<old)save.best[si]=t;if(save.un<si+2)save.un=Math.min(STAGES.length,si+2);store();
@@ -1184,19 +1291,19 @@ function win(){stalker.visible=false;stk.on=false;state='end';endWin=true;endT=0
       :'<p>【'+S.name+'発】配達員は'+S.pref.replace('・','の')+'で、'+c.n+'に「'+ITEM[c.n]+'」を届けた。所要'+kan(t.toFixed(1))+'秒'+(!old||t<old?'、自己最速。':'（最速'+kan(old.toFixed(1))+'秒）。')+'軽トラは、あと'+kan(TR.eta.toFixed(1))+'秒まで迫っていた。配達員は無言で寝そべり、転がり去った。</p><p class="note">◆備考　'+(NOTE[c.n]||'受け取った客は、あなたが見えなくなるまで、ずっとこちらを見ていた。')+'</p>';
     $('rNext').textContent=last?'村をえらぶ':'次の廃村へ';$('rNext').hidden=false;$('rSel').hidden=last;show('result')}}
 const DOOM={
- 'なぜか住んでる人 トメさん':'受け取り手のない荷物は、配達人のものになる。帰り道、箱の内側から爪を立てる音がする。',
- '呪いの地蔵':'地蔵は四体。今夜から、五体目が要る。——あなたの足先が、もう石になりはじめている。',
- '巨大たぬき':'受領印の欄に、葉っぱが一枚。鏡を見るたび、あなたの顔は少しずつ毛深くなる。',
- '昼寝中の木こり 源じい':'起こしてしまった。源じいは三十年前に死んでいる。斧を引きずる音が、家までついてくる。',
- '岩の上の宿場じいさん':'岩の上には、最初から誰もいなかった。伝票の宛名が、あなたの名前に変わっている。',
- '人見知りの山姥':'逃げていたのは、彼女のほうではなかった。包丁を研ぐ音が、背中のすぐ後ろで止まる。',
- 'ダム湖の河童':'皿の乾いた河童は、代わりの水を探す。あなたの中には、六割ほどある。',
- '鉱山アパートの幽霊':'不在票を入れて帰った。翌朝、あなたの部屋のポストに、同じ不在票が入っていた。',
- '呪いの地蔵（六体）':'六体のはずの地蔵が、帰り道では七体いる。七体目は、あなたと同じ帽子をかぶっている。',
- '管理人を名乗る男':'「立入禁止」の札は、内側から掛けられていた。村の出口が、どこにも見つからない。',
- 'トンネル前の幽霊':'トンネルを抜けても、抜けても、同じ村に着く。荷物だけが、少しずつ重くなる。',
- '山姥の姉':'姉は逃げない。戸口に立ったまま、あなたが何周しても、必ず正面にいる。',
- '巨大たぬき親分':'村の全員が、偽物の荷物を受け取った。本物を持つあなたを、全員が見ている。'};
+ 'なぜか住んでる人 トメさん':'受け取り手のない荷物は、配達人のものになる。\n帰り道、箱の内側から爪を立てる音がする。',
+ '呪いの地蔵':'地蔵は四体。今夜から、五体目が要る。\n——あなたの足先が、もう石になりはじめている。',
+ '巨大たぬき':'受領印の欄に、葉っぱが一枚。\n鏡を見るたび、あなたの顔は少しずつ毛深くなる。',
+ '昼寝中の木こり 源じい':'起こしてしまった。源じいは三十年前に死んでいる。\n斧を引きずる音が、家までついてくる。',
+ '岩の上の宿場じいさん':'岩の上には、最初から誰もいなかった。\n伝票の宛名が、あなたの名前に変わっている。',
+ '人見知りの山姥':'逃げていたのは、彼女のほうではなかった。\n包丁を研ぐ音が、背中のすぐ後ろで止まる。',
+ 'ダム湖の河童':'皿の乾いた河童は、代わりの水を探す。\nあなたの中には、六割ほどある。',
+ '鉱山アパートの幽霊':'不在票を入れて帰った。\n翌朝、あなたの部屋のポストに、同じ不在票が入っていた。',
+ '呪いの地蔵（六体）':'六体のはずの地蔵が、帰り道では七体いる。\n七体目は、あなたと同じ帽子をかぶっている。',
+ '管理人を名乗る男':'「立入禁止」の札は、内側から掛けられていた。\n村の出口が、どこにも見つからない。',
+ 'トンネル前の幽霊':'トンネルを抜けても、抜けても、同じ村に着く。\n荷物だけが、少しずつ重くなる。',
+ '山姥の姉':'姉は逃げない。\n戸口に立ったまま、あなたが何周しても、必ず正面にいる。',
+ '巨大たぬき親分':'村の全員が、偽物の荷物を受け取った。\n本物を持つあなたを、全員が見ている。'};
 const kan=v=>String(v).replace(/[0-9]/g,d=>'〇一二三四五六七八九'[d]).replace('.','・');
 const newsDate=()=>{const d=new Date();return '令和'+kan(d.getFullYear()-2018)+'年'+kan(d.getMonth()+1)+'月'+kan(d.getDate())+'日'};
 const NOTE={
@@ -1210,31 +1317,62 @@ const NOTE={
  '鉱山アパートの幽霊':'伝票の日付は、何十年も前のままだった。',
  '管理人を名乗る男':'管理人室の鍵は、外から錆びついていた。',
  '巨大たぬき親分':'全村制覇。……で、あなたは、どうやって帰るの？'};
+// 全村制覇エンディング用：受取人を一列に並べて見守る（FINの順と同じ13体）
+const FIN_CAST=[
+  ()=>human({cloth:'#5a3f4a',hair:'bun',face:FACE.tome,bend:.55}),
+  ()=>jizo(0xd8362b),
+  ()=>tanuki(2.1),
+  ()=>human({cloth:'#3d4a38',hair:'bald',face:FACE.gen,bend:.4}),
+  ()=>human({cloth:'#5a4a3a',hair:'bald',face:FACE.jii,bend:.3}),
+  ()=>human({cloth:'#5f5f66',hair:'wild',face:FACE.uba,spread:.2,bend:.25}),
+  ()=>kappa(),
+  ()=>yurei(),
+  ()=>jizo(0x2f55a8),
+  ()=>human({cloth:'#4a5058',hair:'cap',face:FACE.noppera}),
+  ()=>{const g=yurei();g.scale.setScalar(.96);return g},
+  ()=>human({cloth:'#5f5f66',hair:'wild',face:FACE.uba,knife:1,bend:.2}),
+  ()=>tanuki(3.4)];
+let finWatch=null,finHide=[];
+function finAudienceClear(){
+  if(finWatch){world.remove(finWatch.root);finWatch=null}
+  finHide.forEach(g=>{if(g)g.visible=true});finHide=[];
+  if(pillar)pillar.visible=true}
+function finAudienceBuild(){
+  finAudienceClear();
+  const n=FIN_CAST.length,R=LOW?14:18,cx=pl.x,cz=pl.z,hd=pl.heading,root=new T.Group(),cols=[];
+  for(let i=0;i<n;i++){
+    const t=(i/(n-1)-.5)*1.58,a=hd+Math.PI+t,rr=R*(.94+((i%3)-1)*.05),x=cx+Math.sin(a)*rr,z=cz+Math.cos(a)*rr,g=FIN_CAST[i]();
+    g.position.set(x,H(x,z),z);g.rotation.y=Math.atan2(cx-x,cz-z)+((i&1)?-.04:.04);g.rotation.z=(i%5-2)*.028;root.add(g);cols.push({g,ph:i*.67,i,a,rr})}
+  world.add(root);finWatch={root,cols,cx,cz,hd,R};
+  finHide=[];custs.forEach(c=>{finHide.push(c.g);c.g.visible=false});dolls.forEach(o=>{finHide.push(o.g);o.g.visible=false});
+  stalker.visible=false;truck.visible=false;pkg.visible=false;if(pillar)pillar.visible=false;
+  root.traverse(o=>{if(o.userData.red)o.visible=true});
+  scene.fog.near=Math.min(scene.fog.near,10);scene.fog.far=Math.min(scene.fog.far,130);sfx.whisper()}
 // 全村制覇のエンディング。[便, 受取人, 讃える言葉, そのあと]
 const FIN=[
- [0,0,'あら、いちばん早い配達だったよ。あんたなら、ずっとここに住めるねえ','集落の墓地に、名字の彫られていない墓石が一基増えていた。'],
- [1,0,'……見事。褒美に、われらが守ってやろう。一生、そばで','帰り道、振り返るたびに、地蔵が一体ずつ近くにいる。'],
- [2,0,'ぽんぽこ！ あっぱれな転がりっぷり。お礼の小判、ほんものだよ。……今夜だけはね','財布の中で、何かがかさりと鳴った。'],
- [3,0,'静かな、ええ足音やった。三十年ぶりに、よう眠れたわ。……兄ちゃんも、ここで眠ってええんやで','奥の間に、布団がもう一組、敷いてあった。'],
- [4,0,'ほっほ、見事な飛びっぷり。わしも昔は、あんたほど速かった。……あの崖から落ちるまではの','岩の下に、古い草鞋が片方だけ落ちている。'],
- [5,0,'あ、あの……すごかった、です。お礼に、いちばんよく切れる包丁……研いでおきました……','包丁は、刃をこちらに向けて差し出された。'],
- [6,0,'カパッ！ おぬしの脚、見事じゃ。……湖の底にも、一本ほしいのう','水面から、水かきのある手がいくつも、拍手をしていた。'],
- [7,0,'……はんこ、押せないから……かわりに、あなたの名前、覚えたよ……ずっと……忘れない……','伝票の受領印の欄に、濡れた指で、あなたの名前が書いてあった。'],
- [8,0,'……天晴。七体目の台座は、空けておく','台座の大きさは、ちょうど人ひとり分だった。'],
- [8,1,'お見事でした。ところで、入ってきた道を覚えていますか。……いいんです。もう、出る必要はありませんから','管理人室の名簿の最後に、あなたの名前が書き足された。'],
- [9,0,'……あなたほど速い人に……生きてるうちに……会いたかった……','塞がれたトンネルの奥から、同じ声が、少し遅れて返ってきた。'],
- [9,1,'妹から聞いてたの。……本当に速いのね。逃げても、無駄なくらい','姉は、今度は逃げなかった。'],
- [9,2,'ぽんぽこぽん！ 全村制覇、あっぱれじゃ！ 今宵は村じゅうで祝いの宴、主賓はおぬしじゃ。……帰さんぞ','宴の席には、十の村の受取人が、ひとり残らず並んでいた。'],
- [-1,0,'ご苦労さまでした。あなたは、最高の配達人です','拍手は、夜明けまでやまなかった。手の数は、受取人の数より、ずっと多かった。']];
+ [0,0,'あら、いちばん早い配達だったよ。\nあんたなら、ずっとここに住めるねえ','集落の墓地に、\n名字の彫られていない墓石が一基増えていた。'],
+ [1,0,'……見事。褒美に、われらが守ってやろう。\n一生、そばで','帰り道、振り返るたびに、\n地蔵が一体ずつ近くにいる。'],
+ [2,0,'ぽんぽこ！ あっぱれな転がりっぷり。\nお礼の小判、ほんものだよ。……今夜だけはね','財布の中で、\n何かがかさりと鳴った。'],
+ [3,0,'静かな、ええ足音やった。\n三十年ぶりに、よう眠れたわ。\n……兄ちゃんも、ここで眠ってええんやで','奥の間に、布団がもう一組、\n敷いてあった。'],
+ [4,0,'ほっほ、見事な飛びっぷり。\nわしも昔は、あんたほど速かった。\n……あの崖から落ちるまではの','岩の下に、\n古い草鞋が片方だけ落ちている。'],
+ [5,0,'あ、あの……すごかった、です。\nお礼に、いちばんよく切れる包丁……\n研いでおきました……','包丁は、刃をこちらに向けて\n差し出された。'],
+ [6,0,'カパッ！ おぬしの脚、見事じゃ。\n……湖の底にも、一本ほしいのう','水面から、水かきのある手がいくつも、\n拍手をしていた。'],
+ [7,0,'……はんこ、押せないから……\nかわりに、あなたの名前、覚えたよ……\nずっと……忘れない……','伝票の受領印の欄に、濡れた指で、\nあなたの名前が書いてあった。'],
+ [8,0,'……天晴。\n七体目の台座は、空けておく','台座の大きさは、\nちょうど人ひとり分だった。'],
+ [8,1,'お見事でした。\nところで、入ってきた道を覚えていますか。\n……いいんです。もう、出る必要はありませんから','管理人室の名簿の最後に、\nあなたの名前が書き足された。'],
+ [9,0,'……あなたほど速い人に……\n生きてるうちに……会いたかった……','塞がれたトンネルの奥から、\n同じ声が、少し遅れて返ってきた。'],
+ [9,1,'妹から聞いてたの。\n……本当に速いのね。逃げても、無駄なくらい','姉は、今度は逃げなかった。'],
+ [9,2,'ぽんぽこぽん！ 全村制覇、あっぱれじゃ！\n今宵は村じゅうで祝いの宴、\n主賓はおぬしじゃ。……帰さんぞ','宴の席には、十の村の受取人が、\nひとり残らず並んでいた。'],
+ [-1,0,'ご苦労さまでした。\nあなたは、最高の配達人です','拍手は、夜明けまでやまなかった。\n手の数は、受取人の数より、ずっと多かった。']];
 let fin=null;
 function finShow(i){fin.i=i;fin.t=0;const f=FIN[i],w=$('fWho');w.textContent='';const sm=document.createElement('small');
   if(f[0]<0){sm.textContent='十の村より';w.append(sm,'受取人一同')}
   else{const s=STAGES[f[0]];sm.textContent='第'+(f[0]+1)+'便　'+s.name;w.append(sm,s.cust[f[1]].n.split(' ').pop())}
   $('fSay').textContent='';$('fAside').textContent='';$('fCnt').textContent=(i+1)+' / '+FIN.length;sfx.whisper()}
 function finTick(dt){fin.t+=dt;const f=FIN[fin.i],a=f[2].length/12+.5;$('fSay').textContent=f[2].slice(0,Math.max(0,(fin.t*12)|0));$('fAside').textContent=f[3].slice(0,Math.max(0,((fin.t-a)*15)|0))}
-function finStart(cb){show('');fin={i:0,t:0,cb};$('fin').hidden=false;finShow(0)}
+function finStart(cb){show('');finAudienceBuild();fin={i:0,t:0,cb};$('fin').hidden=false;finShow(0)}
 function finNext(){if(!fin)return;const f=FIN[fin.i];if(fin.t<f[2].length/12+.5+f[3].length/15){fin.t=99;return}if(fin.i<FIN.length-1)finShow(fin.i+1);else finEnd()}
-function finEnd(){if(!fin)return;const cb=fin.cb;fin=null;$('fin').hidden=true;cb()}
+function finEnd(){if(!fin)return;const cb=fin.cb;fin=null;finAudienceClear();$('fin').hidden=true;cb()}
 const EYEH={normal:3.5,jizo:3.75,wander:8.6,gentle:3.55,high:5.75,flee:3.5,fetch:3,ghost:4.15};
 function fail(){state='end';endWin=false;endT=0;music('');const c=custs[cur];failC=c;sfx.horn();setTimeout(sfx.dread,250);
   let tx=c.x,tz=c.z;if(c.t==='jizo'){const s=c.st.find(s=>s.real);tx=s.x;tz=s.z}
@@ -1252,7 +1390,7 @@ function fail(){state='end';endWin=false;endT=0;music('');const c=custs[cur];fai
     $('rDate').textContent=newsDate();$('rList').innerHTML='<p>【'+S.name+'発】配達員は'+c.n+'への配達で、偽配達人に先を越された。その差'+kan(failP.gap)+'メートル。</p><p>'+failTxt[1]+'</p><p class="note">◆次こそ　光の柱へ一直線、下り坂でＢダッシュ。</p>';
     $('rNext').hidden=true;$('rSel').hidden=false;show('result')},7400)}
 
-function openGate(){if($('gate').classList.contains('gone'))return;audioOn();music('title');$('gate').classList.add('gone');$('title').classList.add('open');sfx.whisper();setTimeout(()=>{if(state==='title')$('bStart').focus({preventScroll:true})},5200)}
+function openGate(){if($('gate').classList.contains('gone'))return;resetTitleIntro();audioOn();music('title');$('gate').classList.add('gone');$('title').classList.add('open');sfx.whisper();setTimeout(()=>{if(state==='title')$('bStart').focus({preventScroll:true})},5200)}
 function togglePause(){if(state==='play'){state='pause';$('big').textContent='一時停止';$('big').hidden=false;mDuck=.25;music(mWant)}else if(state==='pause'){state='play';$('big').hidden=true;mDuck=1;music(mWant)}}
 $('gate').addEventListener('pointerdown',()=>{buzz();audioOn();music('title')});
 $('gate').addEventListener('pointerup',()=>setTimeout(openGate,40));
@@ -1285,11 +1423,11 @@ function frame(now){
     stepCusts(0)}
   if(state==='play'){readInput();step(dt);if(TR.eta<8||(stk.on&&stk.d<22)){hbT-=dt;if(hbT<=0){sfx.heart();hbT=.42+TR.eta*.07}}if(countT>-.6){countT-=dt;if(countT<=-.6)$('big').hidden=true}hud()}
   else if(state==='end'){endT+=dt;if(fin)finTick(dt);if(endWin&&endT>3.2&&!winRed){winRed=1;const c=custs[custs.length-1];(c.t==='jizo'?c.st.find(q=>q.real).m:c.g).traverse(o=>{if(o.userData.red)o.visible=true});sfx.whisper()}if(failC){$('dSay').textContent=failTxt[0].slice(0,Math.max(0,((endT-.9)*13)|0));$('dDoom').textContent=failTxt[1].slice(0,Math.max(0,((endT-3.2)*15)|0))}inp.steer=0;inp.thr=endWin&&endT>1.6?1:0;inp.jump=inp.dash=false;stepPlayer(dt);if(endWin===false&&TR.s<TR.total){TR.s=Math.min(TR.total,TR.s+TR.v*dt*.5);placeTruck()}stepCusts(dt)}
-  else stepCusts(dt);
+  else{titleRival(dt);stepCusts(dt)}
   motionSnd();syncMeshes(dt);camera(dt);draw(now);requestAnimationFrame(frame);
 }
 (()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),d=g.createImageData(128,128);for(let i=0;i<d.data.length;i+=4){const v=(Math.random()*255)|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}g.putImageData(d,0,0);$('grain').style.backgroundImage='url('+c.toDataURL()+')'})();
-resize();loadStage(9);state='title';show('title');
+resize();loadStage(LOW?7:9);state='title';show('title');
 window.__g={get draws(){return drawN},get q(){return qLo},adv(t){endT+=t},load:loadStage,step,inp,pl,TR,get custs(){return custs},get muds(){return muds},get cur(){return cur},get state(){return state},set state(v){state=v},get time(){return time},set time(v){time=v},H,STAGES,get music(){return{cur:mCur,want:mWant,paused:mEl?mEl.paused:null,t:mEl?+mEl.currentTime.toFixed(1):0,gain:mG?+mG.gain.value.toFixed(2):null,bad:mBad}},get snd(){return{roll:rollG?+rollG.gain.value.toFixed(3):0,th:thG?+thG.gain.value.toFixed(3):0,rev:revG?+revG.gain.value.toFixed(3):0,hz:rollF?Math.round(rollF.frequency.value):0,rate:rollSrc?+rollSrc.playbackRate.value.toFixed(2):0}},win:()=>win(),fail:()=>fail(),get fin(){return fin?{i:fin.i,n:FIN.length}:null},finNext:()=>finNext()};
 requestAnimationFrame(frame);
 })();
